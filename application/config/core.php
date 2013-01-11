@@ -2,11 +2,6 @@
 
 return array(
 	'routes' => array(
-		array('view-article', '(/<id>)', array(
-				'controller' => 'article',
-				'action' => 'view'
-			)
-		),
 		array('edit-article', '/edit(/<id>)', array(
 				'controller' => 'article',
 				'action' => 'edit'
@@ -17,9 +12,19 @@ return array(
 				'action' => 'talk'
 			)
 		),
-		array('default', '(/<controller>(/<action>(/<id>)))', array(
+		array('app-install', '/installer(/<action>)', array(
+				'controller' => 'installer',
+				'action' => 'start'
+			)
+		),
+		array('view-article', '(/<id>)', array(
 				'controller' => 'article',
 				'action' => 'view'
+			)
+		),
+		array('default', '(/<controller>(/<action>(/<id>)))', array(
+				'controller' => 'article',
+				'action' => 'index'
 			)
 		)
 	),
