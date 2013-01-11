@@ -1,2 +1,8 @@
 
 application/views/.DS_Store
+
+application/config/application.php
+
+application/config/core.php
+
+application/config/database.php
