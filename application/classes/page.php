@@ -11,13 +11,13 @@ class Page extends Controller {
         $this->view = View::get('template');
         
         // Make sure the application has been configured
-//        if (Config::get('application.initilized', false) === false) {
-//            $this->response->redirect('/installer');
-// 
-//            // Prevent action and after() from firing
-//            $this->execute=false;
-//            return;
-//        }
+        if (Config::get('application.initilized', false) === false) {
+            $this->response->redirect('/installer');
+ 
+            // Prevent action and after() from firing
+            $this->execute=false;
+            return;
+        }
         
         // Grab the application configuration
         $this->appTitle = Config::get('application.title', 'Wiki Title');

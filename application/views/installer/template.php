@@ -63,6 +63,9 @@
                 <?php if ($btnFinished) { ?>
                 <button type='submit' onclick="setAction('<?php echo $btnFinishUrl; ?>')">Finish</button>
                 <?php } ?>
+                <?php if ($btnReturn) { ?>
+                <button onclick="window.location.href='/'; return false;" style="width: 100px;">Visit Website</button>
+                <?php } ?>
             </div>
         </div>
         </form>

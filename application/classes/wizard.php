@@ -22,30 +22,23 @@ class Wizard extends Controller {
         $this->view->btnBack = false;
         $this->view->btnNext = true;
         $this->view->btnFinished = false;
-        
-        // Set the config file as writeable
-        $this->view->configFile = APPDIR.'config.php';
-        Config::unlock();
-        $this->view->configWrite = is_writable($this->view->configFile);
+        $this->view->btnReturn = false;
     }
  
     //This will execute after an action is completed
     public function after() {
         //We will find the file path to the view that will 
         //be specified as $subview by the actual controller
-        $this->view->subview = Misc::find_file('view', 'installer/'.$this->subview);
+        $this->view->subview = Misc::find_file('views', 'installer/'.$this->subview);
  
         // Can't continue if we can't write the config
-        if ($this->view->configWrite === false) {
-            $this->view->btnNext = false;
-        }
+//        if ($this->view->configWrite === false) {
+//            $this->view->btnNext = false;
+//        }
         
-        // Lock down the config file
-        Config::lock();
-
         // button links
         $this->view->btnNextUrl = '/installer/' . $this->urlNext;
-        if ($this-> urlBack != '') {
+        if ($this->urlBack != '') {
             $this->view->btnBackUrl = '/installer/' . $this->urlBack;
         } else {
             $this->view->btnBackUrl = '/installer';
