@@ -1,7 +1,8 @@
 <?php
 class Page extends Controller {
     public $view;
-    public $subview;
+    public $pageView;
+    public $attributeView;
     
     public $appTitle;
     
@@ -30,6 +31,7 @@ class Page extends Controller {
         
         // Setup the default layout
         $this->view->cssLayout = "layoutLeft";
+        // $this->view->cssLayout = "layoutRight";
     }
  
  
@@ -43,7 +45,8 @@ class Page extends Controller {
         
         //We will find the file path to the view that will 
         //be specified as $subview by the actual controller
-        $this->view->subview = Misc::find_file('views', $this->subview);
+        $this->view->pageView = Misc::find_file('views', $this->pageView);
+        $this->view->attributeView = Misc::find_file('views', $this->attributeView);
  
         //And now to render the main view
         $this->response->body = $this->view->render();

@@ -1,0 +1,29 @@
+.topBar {
+    margin-left: 180px;
+    text-align: right;
+}
+
+.pageAttributes {
+    float: left;
+}
+
+.pageMenu {
+    clear: right;
+    margin-left: 180px;
+    border-left: 1px solid #a7d7f9;
+}
+
+.pageMenu .button {
+    float: left;
+    border-right: 1px solid #a7d7f9;
+}
+
+.pageContent {
+    clear: right;
+    margin-left: 180px;
+}
+
+.toc {
+    float: right;
+    margin-left: 5px;
+}
