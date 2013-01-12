@@ -65,11 +65,15 @@ html, body {
     height: 25px;
     margin-bottom: -1px;
     border-bottom: 1px solid #a7d7f9;
+    padding-left: 1px;
+    padding-right: 1px;
 }
 
 .pageMenu .button {
     height: 24px;
     border-top: 1px solid #a7d7f9;
+    border-left: 1px solid #a7d7f9;
+    border-right: 1px solid #a7d7f9;
     padding-left: 15px;
     padding-right: 15px;
     text-align: center;
@@ -88,10 +92,11 @@ html, body {
 .pageMenu .search {
     height: 24px;
     border-top: 1px solid #a7d7f9;
-    border-right: 1px solid #a7d7f9;
     border-left: 1px solid #a7d7f9;
+    border-right: 1px solid #a7d7f9;
     padding-left: 15px;
     padding-right: 15px;
+    margin-right: -1px;
     text-align: center;
     line-height: 25px;
     font-family: sans-serif;
@@ -99,13 +104,14 @@ html, body {
     cursor: default;
 }
 
-.pageMenu .upload {
+.pageMenu .options {
     height: 24px;
     border-top: 1px solid #a7d7f9;
-    border-right: 1px solid #a7d7f9;
     border-left: 1px solid #a7d7f9;
+    border-right: 1px solid #a7d7f9;
     padding-left: 15px;
     padding-right: 15px;
+    margin-right: -1px;
     text-align: center;
     line-height: 25px;
     font-family: sans-serif;
@@ -126,6 +132,8 @@ html, body {
 
 .pageFooter {
     clear: both;
+    border-top: 3px double #CCC;
+    padding-top: 5px;
 }
 
 

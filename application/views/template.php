@@ -39,7 +39,10 @@
             <input type="text" id="searchItem" />
             </div>
             <?php } else if($mode === "edit") { ?>
-            <div class="search">
+            <div class="options">
+            Insert Media
+            </div>
+            <div class="options">
             Upload File
             </div>
             <?php } ?>

@@ -1,3 +1,5 @@
+/* No color information in this file */
+
 .topBar {
     margin-right: 180px;
     text-align: left;
@@ -10,19 +12,17 @@
 .pageMenu {
     clear: left;
     margin-right: 180px;
-    border-right: 1px solid #a7d7f9;
 }
 
 .pageMenu .button {
     float: right;
-    border-left: 1px solid #a7d7f9;
 }
 
 .pageMenu .search {
     float: left;
 }
 
-.pageMenu .upload {
+.pageMenu .options {
     float: left;
 }
 
