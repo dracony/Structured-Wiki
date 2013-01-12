@@ -12,7 +12,7 @@ return array(
 				'action' => 'talk'
 			)
 		),
-		array('app-install', '/installer(/<action>)', array(
+		array('app-install', '/~installer(/<action>)', array(
 				'controller' => 'installer',
 				'action' => 'start'
 			)

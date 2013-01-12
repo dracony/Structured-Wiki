@@ -12,7 +12,7 @@ class Page extends Controller {
         
         // Make sure the application has been configured
         if (Config::get('application.initilized', false) === false) {
-            $this->response->redirect('/installer');
+            $this->response->redirect('/~installer');
  
             // Prevent action and after() from firing
             $this->execute=false;
