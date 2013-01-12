@@ -20,10 +20,12 @@
 
 .pageMenu .search {
     float: right;
+    margin-right: -1px;
 }
 
 .pageMenu .options {
     float: right;
+    margin-right: -1px;
 }
 
 .pageContent {
