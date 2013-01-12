@@ -1,6 +1,21 @@
 <?php
 class Installer_Controller extends Wizard {
-
+    
+    // Set the base URL for the wizard
+    function __construct() {
+        parent::__construct();
+        $this->base = 'installer';
+        
+        // If we are already initilized then back out to the website
+        if (Config::get('application.initilized', false) === true) {
+            $this->response->redirect('/');
+ 
+            // Prevent action and after() from firing
+            $this->execute=false;
+            return;
+        }
+    }
+   
 	public function action_start() {
 		$this->subview = 'start';
 		$this->view->title = 'Welcome';
@@ -30,7 +45,11 @@ class Installer_Controller extends Wizard {
 		} else {
 		    $this->view->dbName = Session::get('temp.dbName');
 		}
-		$this->view->dbUser = Config::get('database.default.user', 'root');
+		if (Session::get('temp.dbUser', '--__--None--__--') == '--__--None--__--') {
+    		    $this->view->dbUser = Config::get('database.default.user', 'root');
+		} else {
+		    $this->view->dbUser = Session::get('temp.dbUser');
+		}
 		$this->view->dbPass = '';
 	}
     
@@ -54,13 +73,36 @@ class Installer_Controller extends Wizard {
             return;
 	    }
 	    
-	    // Set the config to the new information
-        Config::set('database.default.host', Session::get('temp.dbServer'));
-        Config::set('database.default.db', Session::get('temp.dbName'));
-        Config::set('database.default.user', Session::get('temp.dbUser'));
-        Config::set('database.default.password', Session::get('temp.dbPass'));
-        Config::set('database.default.connection', 'mysql:host='.Session::get('temp.dbServer').';dbname='.Session::get('temp.dbName').'');
-        Config::write('database');
+	    // Set the database temp config to the new information
+        Config::set('database.test.host', Session::get('temp.dbServer'));
+        Config::set('database.test.db', Session::get('temp.dbName'));
+        Config::set('database.test.user', Session::get('temp.dbUser'));
+        Config::set('database.test.password', Session::get('temp.dbPass'));
+        Config::set('database.test.connection', 'mysql:host='.Session::get('temp.dbServer').';dbname='.Session::get('temp.dbName').'');
+
+        // Test the connection
+        $valid = true;
+
+        if ($valid === true) {
+            // Write it to file
+            Config::set('database.test.host', '');
+            Config::set('database.test.db', '');
+            Config::set('database.test.user', '');
+            Config::set('database.test.password', '');
+            Config::set('database.test.connection', '');
+
+            Config::set('database.default.host', Session::get('temp.dbServer'));
+            Config::set('database.default.db', Session::get('temp.dbName'));
+            Config::set('database.default.user', Session::get('temp.dbUser'));
+            Config::set('database.default.password', Session::get('temp.dbPass'));
+            Config::set('database.default.connection', 'mysql:host='.Session::get('temp.dbServer').';dbname='.Session::get('temp.dbName').'');
+            Config::write('database');
+        } else {
+            // Couldn't connect
+            $this->response->redirect('/installer/database');
+            $this->execute=false;
+            return;
+        }
         
         // Buttons
 		$this->view->btnBack = true;
