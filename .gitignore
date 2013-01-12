@@ -6,3 +6,9 @@ application/config/application.php
 application/config/core.php
 
 application/config/database.php
+
+application/classes/model/.DS_Store
+
+application/classes/.DS_Store
+
+application/.DS_Store
