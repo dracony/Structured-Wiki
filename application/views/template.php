@@ -32,6 +32,17 @@
             <?php } else { ?>
             <div class="button" onclick="window.location.href='/talk/<?php echo $id; ?>'">Talk</div>
             <?php } } ?>
+            
+            <?php if($mode === "view") { ?>
+            <div class="search">
+            Search:&nbsp;&nbsp;
+            <input type="text" id="searchItem" />
+            </div>
+            <?php } else if($mode === "edit") { ?>
+            <div class="search">
+            Upload File
+            </div>
+            <?php } ?>
         </div>
         <?php } ?>
         <div class="pageContent">
