@@ -1,0 +1,31 @@
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+input,
+select,
+textarea,
+button {
+    display: block;
+    outline: none;
+    margin: 0px;
+    padding: 0px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+     box-sizing: border-box;
+     border: 1px solid #ccc;
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+    padding: 2px;
+    min-height: 45px;
+}
+
+input {
+    width: 100%;
+    padding: 2px;
+}

@@ -1,0 +1,15 @@
+textarea {
+    width: 100%;
+    resize: none;
+    padding: 2px;
+    white-space: pre-line;
+}
+
+.textareaClone {
+    white-space: pre-line;
+}
+
+input {
+    width: 100%;
+    padding: 2px;
+}
