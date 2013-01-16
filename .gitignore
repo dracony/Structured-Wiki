@@ -20,3 +20,5 @@ modules/migrate/classes/.DS_Store
 modules/migrate/classes/migrate/.DS_Store
 
 web/.DS_Store
+
+application/migrations/.DS_Store

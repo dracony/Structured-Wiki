@@ -1,14 +1,18 @@
 <?php
 class Page extends Controller {
+    public $template;
     public $view;
     public $pageView;
     public $attributeView;
     
     public $appTitle;
     
+    public $pageTitle;
+    
     public function before() {
+                
         //This will be our global view
-        $this->view = View::get('template');
+        $this->view = View::get($this->template);
         
         // Make sure the application has been configured
         if (Config::get('application.initilized', false) === false) {
@@ -20,11 +24,13 @@ class Page extends Controller {
         }
         
         // Grab the application configuration
-        $this->appTitle = Config::get('application.title', 'Wiki Title');
+        $this->appTitle = Config::get('application.name', 'Wiki Title');
         
-        // Set the page defaults
+        // Set the page default rites
         $this->view->canEdit = true;
         $this->view->canTalk = true;
+        
+        // Setup page defaults
         $this->view->mode = 'view';
         $this->view->id = $this->request->param('id', 'Welcome');
         $this->view->pageImage = '/defaultPageImage.jpg';
@@ -41,7 +47,7 @@ class Page extends Controller {
         $this->view->cssLayout .= '.css';
         
         // Update the title
-        $this->view->title = $this->appTitle . ': ' . $this->view->title;
+        $this->view->browserTitle = $this->appTitle . ': ' . $this->view->pageTitle;
         
         //We will find the file path to the view that will 
         //be specified as $subview by the actual controller

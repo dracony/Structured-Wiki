@@ -5,10 +5,5 @@ class Article_Model extends ORM {
     public $table = 'atricles';
     
     // Primary key
-    public $id_field = 'id';
-    
-    // Create the needed table if it doesn't already exist
-    public static function install() {
-    }
-    
+    public $id_field = 'id';    
 }

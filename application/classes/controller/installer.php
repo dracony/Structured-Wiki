@@ -59,16 +59,16 @@ class Installer_Controller extends Wizard {
 		$this->view->title = 'Application Configuration';
 		
 		// Validate input
-		Session::set('temp.dbServer', $this->request->post('dbServer', ''));
-		Session::set('temp.dbName', $this->request->post('dbName', ''));
-		Session::set('temp.dbUser', $this->request->post('dbUser', ''));
-		Session::set('temp.dbPass', $this->request->post('dbPass', ''));
+		Session::set('temp.dbServer', $this->request->post('dbServer', Session::get('temp.dbServer', '')));
+		Session::set('temp.dbName', $this->request->post('dbName', Session::get('temp.dbName', '')));
+		Session::set('temp.dbUser', $this->request->post('dbUser', Session::get('temp.dbUser', '')));
+		Session::set('temp.dbPass', $this->request->post('dbPass', Session::get('temp.dbPass', '')));
 		
 	    if (Session::get('temp.dbServer', '') == '' || 
 	        Session::get('temp.dbName', '') == '' || 
 	        Session::get('temp.dbUser', '') == '')
 	    {
-            $this->response->redirect('/installer/database');
+            $this->response->redirect('/~installer/database');
             $this->execute=false;
             return;
 	    }
@@ -99,11 +99,29 @@ class Installer_Controller extends Wizard {
             Config::write('database');
         } else {
             // Couldn't connect
-            $this->response->redirect('/installer/database');
+            $this->response->redirect('/~installer/database');
             $this->execute=false;
             return;
         }
+
         
+		// Set the current values
+		if (Session::get('temp.appName', '--__--None--__--') == '--__--None--__--') {
+		    $this->view->appName = Config::get('application.name', 'Wiki');
+		} else {
+		    $this->view->appName = Session::get('temp.appName');
+		}
+		if (Session::get('temp.appEmail', '--__--None--__--') == '--__--None--__--') {
+		    $this->view-> appEmail = '';
+		} else {
+		    $this->view->appEmail = Session::get('temp.appEmail');
+		}
+		if (Session::get('temp.appNickname', '--__--None--__--') == '--__--None--__--') {
+		    $this->view-> appNickname = '';
+		} else {
+		    $this->view->appNickname = Session::get('temp.appNickname');
+		}
+
         // Buttons
 		$this->view->btnBack = true;
 		$this->urlBack = 'database';
@@ -118,10 +136,47 @@ class Installer_Controller extends Wizard {
 		$this->view->btnNext = false;
         $this->view->btnReturn = true;
         
+        // Read in the application settings
+        $appName = $this->request->post('appName', '');
+        $appEmail = $this->request->post('appEmail', '');
+        $appPass = $this->request->post('appPassword', '');
+        $appNickname = $this->request->post('appNickname', '');
+
+		Session::set('temp.appName', $appName);
+		Session::set('temp.appEmail', $appEmail);
+		Session::set('temp.appNickname', $appNickname);
+        
+	    if ($appName == '' || $appEmail == '' || $appPass == '')
+	    {
+            $this->response->redirect('/~installer/application');
+            $this->execute=false;
+            return;
+	    }
+	    
+	    // Write config to file
+        Config::set('application.name', $appName);
+        Config::write('application');
+
+        // Install the database
+        $migrate = Migrate::factory('default');
+        $last_version=end($migrate->versions)->name;
+        $migrate->migrate_to($last_version);
+        
+        // Update the system table with the new database scheme version
+        $system = ORM::factory('system')->where('name','db_scheme_version')->find();
+        $system->name = 'db_scheme_version';
+        $system->value = $migrate->current_version;
+        $system->save();
+        
+        // Create the admin account
+        $admin=ORM::factory('user');
+        $admin->email = $appEmail;
+        $admin->nickname = $appNickname;
+        $admin->passwordHash = hash("sha512", $appPass);
+        $admin->save();
+        
         // Set as application initilaze
         Config::set('application.initilized', true);
-
-        // Save everything to the config
         Config::write('application');
 	}
 }
