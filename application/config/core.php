@@ -17,16 +17,16 @@ return array(
 				'action' => 'start'
 			)
 		),
-		array('view-article', '(/<id>)', array(
+		array('app-api', '/~api(/<command>)', array(
+				'controller' => 'api',
+				'action' => 'api'
+			)
+		),
+		array('view-article', array('(/<id>)',array('id'=>'.*+')), array(
 				'controller' => 'article',
 				'action' => 'view'
 			)
-		),
-		array('default', '(/<controller>(/<action>(/<id>)))', array(
-				'controller' => 'article',
-				'action' => 'index'
-			)
 		)
 	),
-	'modules' => array('database', 'orm','email')
+	'modules' => array('database', 'orm','migrate')
 );
