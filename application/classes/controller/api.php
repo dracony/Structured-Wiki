@@ -34,12 +34,12 @@ class Api_Controller extends Controller {
     
     
     function api_login() {
-	    $user = $this->request->post('user', '');
+	    $username = $this->request->post('user', '');
 	    $password = $this->request->post('pass', '');
 	    
 	    // Authenticate the user
         $auth = false;
-        $user = ORM::factory('user')->where('email', $user)
+        $user = ORM::factory('user')->where('email', $username)
                                     ->where('passwordHash', hash("sha512", $password))
                                     ->find();
         if($user->loaded()) {
@@ -51,7 +51,11 @@ class Api_Controller extends Controller {
         if ($auth === true) {
             // Setup session
             Session::set('auth', true);
-            Session::set('username', $user);
+            if ($user->nickname != '') {
+                Session::set('username', $user->nickname);
+            } else {
+                Session::set('username', $user->email);
+            }
 	    } else {
 	        // Clear session
 	        Session::reset();
