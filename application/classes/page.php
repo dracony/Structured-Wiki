@@ -1,17 +1,21 @@
 <?php
 class Page extends Controller {
-    public $template;
-    public $view;
-    public $pageView;
-    public $attributeView;
+    public $id;            // The current ID
+    
+    public $template;      // The html template to use
+    public $view;          // The loaded view
+    public $pageView;      // The page content template to use
+    public $attributeView; // The page attribute template to use
     
     public $appTitle;
-    
     public $pageTitle;
     
     public function before() {
-                
-        //This will be our global view
+        // Grab the ID
+        // TODO: Make unicode safe
+        $this->id = strtolower($this->request->param('id', 'Welcome'));
+        
+        // This will be our global view
         $this->view = View::get($this->template);
         
         // Make sure the application has been configured
@@ -32,12 +36,11 @@ class Page extends Controller {
         
         // Setup page defaults
         $this->view->mode = 'view';
-        $this->view->id = $this->request->param('id', 'Welcome');
+        $this->view->id = $this->id;
         $this->view->pageImage = '/defaultPageImage.jpg';
         
         // Setup the default layout
         $this->view->cssLayout = "layoutLeft";
-        // $this->view->cssLayout = "layoutRight";
     }
  
  

@@ -27,6 +27,11 @@ button {
      border: 1px solid #ccc;
 }
 
+.search input {
+    padding: 2px;
+    width: auto;
+}
+
 #overlay {
     position: fixed;
     display: none;
@@ -173,12 +178,51 @@ button {
     text-align: center;
 }
 
+.pageContent h1 small {
+    font-size: 15px;
+    font-weight: normal;
+}
+
 .pageContent h2 {
-    margin-top: 10px;
+    margin-top: 25px;
     margin-bottom: 3px;
     font-size: 16px;
     border-bottom: 1px dotted #CCC;
 }
+
+.pageContent h2:fist-child {
+    margin-top: 0px;
+}
+
+.pageContent h2 small {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.pageContent .quote {
+    margin: 20px 20px 20px 35px;
+    padding-left: 5px;
+    border-left: 2px solid #a7d7f9;
+}
+
+/* button bar */
+#buttonbar {
+    width: 100%;
+    border-top: 1px dotted #a7d7f9;
+    margin-top: 20px;
+    margin-left: -5px;
+    margin-bottom: -6px;
+    padding: 5px;
+    text-align: center;
+}
+
+#buttonbar button {
+    padding: 2px;
+    border: 1px solid #cccccc;
+    background: #f6f6f6;
+    font-weight: bold;
+}
+
 
 .pageFooter {
     clear: both;
@@ -209,6 +253,7 @@ button {
     width: 100%;
 }
 
+/* Table of contents */
 
 .toc {
     margin-bottom: 5px;
@@ -351,5 +396,6 @@ button {
     padding: 4px;
     cursor: pointer;
 }
+
 
 

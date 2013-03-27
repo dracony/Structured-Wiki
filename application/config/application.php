@@ -1,5 +1,5 @@
 <?php
-
-return array(
-
+return array (
+  'name' => 'Wiki',
+  'initilized' => true,
 );

@@ -8,9 +8,11 @@ class Api_Controller extends Controller {
         'logout' => 'Teminate a session'
     );
     
+    
     function before() {
 	    $this->command = strtolower($this->request->param('command', 'help'));
     }
+
 
 	public function action_api() {
 	    switch($this->command) {
@@ -62,6 +64,7 @@ class Api_Controller extends Controller {
             Session::set('auth', false);
 	    }
     }
+    
     
     function api_logout() {
 	        // Clear session

@@ -5,30 +5,30 @@ class Article_Controller extends Page {
     function __construct() {
         parent::__construct();
         
-        $this->template = 'templateArticle';
+        $this->template = 'tempArticle';
         // Find the page in the database
         $article = '';
     }
     
 	public function action_view() {
-		$this->pageView = 'pageView';
-		$this->attributeView = 'attributeView';
+		$this->pageView = 'article/View';
+		$this->attributeView = 'attribute/View';
 		$this->view->mode = 'view';
 		$this->set_common_items();
 		$this->view->message = 'Have fun coding!';
 	}
 
 	public function action_edit() {
-		$this->pageView = 'pageEdit';
-		$this->attributeView = 'attributeEdit';
+		$this->pageView = 'atricle/Edit';
+		$this->attributeView = 'attribute/Edit';
 		$this->view->mode = 'edit';
 		$this->set_common_items();
 		$this->view->message = 'Have fun coding!';
 	}
 
 	public function action_talk() {
-		$this->pageView = 'pageTalk';
-		$this->attributeView = 'attributeTalk';
+		$this->pageView = 'article/Talk';
+		$this->attributeView = 'attribute/Talk';
 		$this->view->mode = 'talk';
 		$this->set_common_items();
 		$this->view->message = 'Have fun coding!';

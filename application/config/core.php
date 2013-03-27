@@ -2,14 +2,31 @@
 
 return array(
 	'routes' => array(
-		array('edit-article', '/edit(/<id>)', array(
-				'controller' => 'article',
+		array('view-template', '/!<id>', array(
+				'controller' => 'template',
+				'action' => 'view'
+			)
+		),
+		array('edit-template', '/edit/!<id>', array(
+				'controller' => 'template',
 				'action' => 'edit'
 			)
 		),
-		array('talk-article', '/talk(/<id>)', array(
-				'controller' => 'article',
+		array('talk-template', '/talk/!<id>', array(
+				'controller' => 'template',
 				'action' => 'talk'
+			)
+		),
+		array('edit-article', '/edit/<id>', array(
+				'controller' => 'article',
+				'action' => 'edit',
+				'id' => 'Welcome'
+			)
+		),
+		array('talk-article', '/talk/<id>', array(
+				'controller' => 'article',
+				'action' => 'talk',
+				'id' => 'Welcome'
 			)
 		),
 		array('app-install', '/~installer(/<action>)', array(
@@ -19,12 +36,13 @@ return array(
 		),
 		array('app-api', '/~api(/<command>)', array(
 				'controller' => 'api',
-				'action' => 'api'
+				'command' => 'help'
 			)
 		),
-		array('view-article', array('(/<id>)',array('id'=>'.*+')), array(
+		array('view-article', '(/<id>)', array(
 				'controller' => 'article',
-				'action' => 'view'
+				'action' => 'view',
+				'id' => 'Welcome'
 			)
 		)
 	),

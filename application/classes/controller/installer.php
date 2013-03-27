@@ -168,12 +168,56 @@ class Installer_Controller extends Wizard {
         $system->value = $migrate->current_version;
         $system->save();
         
+        // Add the rights
+        $right = ORM::factory('right');
+        $right->points = 2147483648;
+        $right->key = 'SUPER_ADMIN';
+        $right->name = 'Super Admin';
+        $right->description = 'Super administrator. This right can not be assigned.';
+        $right->save();
+
+        $right = ORM::factory('right');
+        $right->points = 0;
+        $right->key = 'VIEW_ARTICLE';
+        $right->name = 'View Article';
+        $right->description = 'View any public article on the wiki.';
+        $right->save();
+
+        $right = ORM::factory('right');
+        $right->points = 0;
+        $right->key = 'TALK_ARTICLE';
+        $right->name = 'Talk Article';
+        $right->description = 'Participate in discussions on public articles.';
+        $right->save();
+
+        $right = ORM::factory('right');
+        $right->points = 200;
+        $right->key = 'EDIT_ARTICLE';
+        $right->name = 'Edit Article';
+        $right->description = 'Edit any public article on the wiki.';
+        $right->save();
+
+        $right = ORM::factory('right');
+        $right->points = 1000;
+        $right->key = 'ADD_ARTICLE';
+        $right->name = 'Add Article';
+        $right->description = 'Add a new public article on the wiki.';
+        $right->save();
+
+        
         // Create the admin account
-        $admin=ORM::factory('user');
+        $admin = ORM::factory('user');
         $admin->email = $appEmail;
         $admin->nickname = $appNickname;
         $admin->passwordHash = hash("sha512", $appPass);
         $admin->save();
+        
+        
+        // Add the superuser right to the admin account
+        $right = ORM::factory('right')->where('key', 'SUPER_ADMIN')->find();
+        $admin->add('rights', $right);
+        $admin->save();
+        
         
         // Set as application initilaze
         Config::set('application.initilized', true);
