@@ -87,7 +87,8 @@ $(document).ready(function() {
     });
 });
 
-
+// Update the order values on the list and
+// update the lists json data
 function UpdateListCounts() {
     $(".sortable").each(function(index) {
         $(this).children("li").each(function(index) {
@@ -95,8 +96,10 @@ function UpdateListCounts() {
         });
     });
     UpdateSectionData();
+    UpdateAttributeData();
 }
 
+// Store the sections list in json
 function UpdateSectionData() {
     var data = Array();
     $("#lstSections").each(function(index) {
@@ -110,6 +113,22 @@ function UpdateSectionData() {
     });
     var dataText = JSON.stringify(data, null, 2);
     $("#templateSections").val(dataText);
+}
+
+// Store the attributes list in json
+function UpdateAttributeData() {
+    var data = Array();
+    $("#lstAttributes").each(function(index) {
+        $(this).children("li").each(function(index) {
+            $(this).children(".order").text(index + 1);
+            data[index] = Array(index, 
+                                $(this).children("input").val(), 
+                                $(this).children(".title").text(), 
+                                $(this).children("select").val());
+        });
+    });
+    var dataText = JSON.stringify(data, null, 2);
+    $("#templateAttributes").val(dataText);
 }
 
 

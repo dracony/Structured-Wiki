@@ -187,6 +187,36 @@ return array(
 		'lastEditDate' => array(
 			'type' => 'date'
 		)
-	)	
+	),	
 	
+	
+	// Discussions
+	'posts' => array (
+	    'id' => array (
+	        'type' => 'id'
+	    ),
+	    'article_id' => array (
+	        'type' => 'int'
+	    ),
+	    'template_id' => array (
+	        'type' => 'int'
+	    ),
+	    'parent' => array (
+	        'type' => 'it'
+	    ),
+		'owner_id' => array(
+			'type' => 'int'
+		),
+		'postDate' => array(
+			'type' => 'date'
+		),
+		'title' => array(
+			'type' => 'varchar',
+			'size' => 512
+		),
+		'content' => array(
+			'type' => 'varchar',
+			'size' => 2048
+		)
+	)
 );

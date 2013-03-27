@@ -11,27 +11,45 @@ foreach ($templateSections as $s) {
     echo "<li class='ui-state-default' data-can-delete='no'>";
     echo "<span class='ui-icon ui-icon-arrowthick-2-n-s'></span>";
     echo "<span class='order'></span>";
-    echo "<span class='title'>" . $s['name'] . "</span>";
-    echo "<span class='editTitle'><input value='" . $s['name'] . "'/></span>";
+    echo "<span class='title'>" . $s->title . "</span>";
+    echo "<span class='editTitle'><input value='" . $s->title . "'/></span>";
     echo "<select>";
-    echo "<option value='mu'>Markup</option>";
-    echo "<option value='sl'>Simple List</option>";
-    echo "<option value='dt'>Data Table</option>";
-    echo "<option value='ig'>Image Gallery</option>";
+    if($s->type === 'mu') {
+        echo "<option value='mu' selected>Markup</option>";
+    } else {
+        echo "<option value='mu'>Markup</option>";
+    }
+    if($s->type === 'sl') {
+        echo "<option value='sl' selected>Simple List</option>";
+    } else {
+        echo "<option value='sl'>Simple List</option>";
+    }
+    if($s->type === 'dt') {
+        echo "<option value='dt' selected>Data Table</option>";
+    } else {
+        echo "<option value='dt'>Data Table</option>";
+    }
+    if($s->type === 'ig') {
+        echo "<option value='ig' selected>Image Gallery</option>";
+    } else {
+        echo "<option value='ig'>Image Gallery</option>";
+    }
     echo "<select>";
-    echo "<input type='hidden' value='" . $s['name'] . "' />";
+    echo "<input type='hidden' value='" . $s->title . "' />";
     echo "<button>-</button>";
     echo "</li>";
 }
 ?>
 </ol>
-<h2>Attributes:<button id="btnAddAttribute">+</button></h2>
+<h2>Attributes:<br /><small>(Each attribute is a single definitive item, a brithdate, coordinates, name, etc.)</small><button id="btnAddAttribute">+</button></h2>
+<input type='hidden' id='templateAttributes' name='templateAttributes' value='' />
 <ol id='lstAttributes' class='sortable smallColumns'>
 <?php
+foreach ($templateAttributes as $s) {
     echo "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>";
     echo "<span class='order'></span>";
-    echo "<span class='title'>" . $s['name'] . "</span>";
-    echo "<span class='editTitle'><input value='" . $s['name'] . "'/></span>";
+    echo "<span class='title'>" . $s->title . "</span>";
+    echo "<span class='editTitle'><input value='" . $s->title . "'/></span>";
     echo "<select>";
     echo "<option value='date'>Date</option>";
     echo "<option value='int'>Integer</option>";
@@ -42,9 +60,10 @@ foreach ($templateSections as $s) {
     echo "<option value='img'>Image</option>";
     echo "<option value='sep'>Separator</option>";
     echo "<select>";
-    echo "<input type='hidden' value='" . $s['name'] . "' />";
+    echo "<input type='hidden' value='" . $s->title . "' />";
     echo "<button>-</button>";
     echo "</li>";
+}
 ?>
 </ol>
 
