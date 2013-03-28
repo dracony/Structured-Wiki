@@ -108,7 +108,7 @@ function UpdateSectionData() {
             data[index] = Array(index, 
                                 $(this).children("input").val(), 
                                 $(this).children(".title").text(), 
-                                $(this).children("select").val());
+                                $(this).children(".type").val());
         });
     });
     var dataText = JSON.stringify(data, null, 2);
@@ -124,7 +124,7 @@ function UpdateAttributeData() {
             data[index] = Array(index, 
                                 $(this).children("input").val(), 
                                 $(this).children(".title").text(), 
-                                $(this).children("select").val());
+                                $(this).children(".type").val());
         });
     });
     var dataText = JSON.stringify(data, null, 2);

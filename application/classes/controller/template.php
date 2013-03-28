@@ -22,8 +22,6 @@ class Template_Controller extends Page {
         		$this->view->pageSummary = $this->templateData->description;
         		$this->view->templateSections = $this->templateData->sections->order_by('order', 'ASC')->find_all()->as_array(true);
         		$this->pageView = 'template/View';
-        		$this->set_common_items();
-        		$this->view->message = 'Have fun coding!';
         } else {
         		$this->pageView = 'template/New';
         		$this->view->pageTitle = 'Create template ' . $this->id . '?';
@@ -84,22 +82,34 @@ class Template_Controller extends Page {
         		$this->response->redirect('/edit/!' . $this->templateData->name);
     		}
 
-        // Set the mode to view
-		$this->view->mode = 'edit';
 
         // Set page variables
 		$this->pageView = 'template/Edit';
+		$this->view->mode = 'edit';
 		
 		// Setup the template sections
 	    if ($this->templateData->loaded()) {
         		$this->view->pageTitle = 'Editing template ' . $this->templateData->name;
         		$this->view->templateName = $this->templateData->name;
         		$this->view->templateDescription = $this->templateData->description;
-        		$this->view->templateSections = $this->templateData->sections->order_by('order', 'ASC')->find_all()->as_array(true);
-        		if (count($this->view->templateSections) == 0) {
+        		$tempSections = $this->templateData->sections->order_by('order', 'ASC')->find_all();
+        		if (count($tempSections) == 0) {
             		$this->view->templateSections = array(
-            		    (object)array('title' => 'Content', 'type' => 'mu')
+            		    (object)array('title' => 'Content', 'type' => 'mu', 'inuse' => 0)
             		);
+        		} else {
+        		    $sectionList= array();
+        		    foreach($tempSections as $tempSection) {
+        		        $inuse = 0;
+        		        if ($tempSection->sections->count_all() != 0) {
+        		            $inuse = 1;
+        		        }
+        		        $object = (object)array('title' => $tempSection->title,
+        		                                'type' => $tempSection->type,
+        		                                'inuse' => $inuse);
+        		        array_push($sectionList, $object);
+        		    }
+        		    $this->view->templateSections = $sectionList;
         		}
         		$this->view->templateAttributes = array();
 	    } else {
@@ -115,14 +125,21 @@ class Template_Controller extends Page {
 
 
 	public function action_talk() {
-		$this->pageView = 'pageTalk';
-		$this->attributeView = 'attributeTalk';
-		$this->view->mode = 'talk';
-		$this->set_common_items();
-		$this->view->message = 'Have fun coding!';
+        // Find the template in the database
+		$this->templateData = ORM::factory('template')->where('name', $this->id)->find();
+
+	    if ($this->templateData->loaded()) {
+            // Set page variables
+        		$this->pageView = 'template/Talk';
+        		$this->view->pageTitle = 'Talk ' . $this->templateData->name;
+        		$this->view->mode = 'talk';
+        		$this->view-> templateDescription = $this->templateData->description;
+	    } else {
+        		$this->pageView = 'template/New';
+        		$this->view->pageTitle = 'Create template ' . $this->id . '?';
+        		$this->view->mode = 'view';
+        		$this->view->templateDescription = '';
+	    }
 	}
 	
-	
-	private function set_common_items() {
-	}
 }

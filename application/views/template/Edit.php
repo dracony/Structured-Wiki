@@ -9,34 +9,38 @@
 <?php
 foreach ($templateSections as $s) {
     echo "<li class='ui-state-default' data-can-delete='no'>";
+    echo "<input type='hidden' value='" . $s->title . "' />";
     echo "<span class='ui-icon ui-icon-arrowthick-2-n-s'></span>";
     echo "<span class='order'></span>";
     echo "<span class='title'>" . $s->title . "</span>";
     echo "<span class='editTitle'><input value='" . $s->title . "'/></span>";
-    echo "<select>";
-    if($s->type === 'mu') {
-        echo "<option value='mu' selected>Markup</option>";
+    if ($s->inuse === 0) {
+        echo "<select class='type'>";
+        if($s->type === 'mu') {
+            echo "<option value='mu' selected>Markup</option>";
+        } else {
+            echo "<option value='mu'>Markup</option>";
+        }
+        if($s->type === 'sl') {
+            echo "<option value='sl' selected>Simple List</option>";
+        } else {
+            echo "<option value='sl'>Simple List</option>";
+        }
+        if($s->type === 'dt') {
+            echo "<option value='dt' selected>Data Table</option>";
+        } else {
+            echo "<option value='dt'>Data Table</option>";
+        }
+        if($s->type === 'ig') {
+            echo "<option value='ig' selected>Image Gallery</option>";
+        } else {
+            echo "<option value='ig'>Image Gallery</option>";
+        }
+        echo "<select>";
+        echo "<button>-</button>";
     } else {
-        echo "<option value='mu'>Markup</option>";
+        echo "<input type='hidden' class='type' value='" . $s-> type . "' />";
     }
-    if($s->type === 'sl') {
-        echo "<option value='sl' selected>Simple List</option>";
-    } else {
-        echo "<option value='sl'>Simple List</option>";
-    }
-    if($s->type === 'dt') {
-        echo "<option value='dt' selected>Data Table</option>";
-    } else {
-        echo "<option value='dt'>Data Table</option>";
-    }
-    if($s->type === 'ig') {
-        echo "<option value='ig' selected>Image Gallery</option>";
-    } else {
-        echo "<option value='ig'>Image Gallery</option>";
-    }
-    echo "<select>";
-    echo "<input type='hidden' value='" . $s->title . "' />";
-    echo "<button>-</button>";
     echo "</li>";
 }
 ?>
@@ -50,7 +54,7 @@ foreach ($templateAttributes as $s) {
     echo "<span class='order'></span>";
     echo "<span class='title'>" . $s->title . "</span>";
     echo "<span class='editTitle'><input value='" . $s->title . "'/></span>";
-    echo "<select>";
+    echo "<select class='type'>";
     echo "<option value='date'>Date</option>";
     echo "<option value='int'>Integer</option>";
     echo "<option value='float'>Decimal</option>";

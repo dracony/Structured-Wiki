@@ -14,4 +14,12 @@ class TemplateSection_Model extends ORM {
             'key'=>'template_id'
         )
     );
+
+    // Each template section can be used by many article sections
+    protected $has_many=array(
+        'sections'=>array(
+            'model'=>'ArticleSection',
+            'key'=>'section_id'
+        )
+    );
 }
