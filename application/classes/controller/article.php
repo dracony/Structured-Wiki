@@ -11,14 +11,28 @@ class Article_Controller extends Page {
     }
     
 	public function action_view() {
-		$this->pageView = 'article/View';
-		$this->attributeView = 'attribute/View';
-		$this->view->mode = 'view';
-		$this->set_common_items();
-		$this->view->message = 'Have fun coding!';
+        // Find the template in the database
+		$this->articleData = ORM::factory('template')->where('name', $this->id)->find();
+
+
+        // Set the mode to view
+    		$this->view->mode = 'view';
+
+	    if ($this->articleData->loaded()) {
+            $this->pageView = 'article/View';
+            $this->attributeView = 'attribute/View';
+            $this->view->pageTitle = $this->articleData->title;
+	    } else {
+            $this->pageView = 'article/New';
+            $this->attributeView = 'attribute/New';
+            $this->view->pageTitle = 'Create article ' . $this->id . '?';
+	    }
 	}
 
 	public function action_edit() {
+        // Find the template in the database
+		$this->articleData = ORM::factory('template')->where('name', $this->id)->find();
+
 		$this->pageView = 'atricle/Edit';
 		$this->attributeView = 'attribute/Edit';
 		$this->view->mode = 'edit';
@@ -27,6 +41,9 @@ class Article_Controller extends Page {
 	}
 
 	public function action_talk() {
+        // Find the template in the database
+		$this->articleData = ORM::factory('template')->where('name', $this->id)->find();
+
 		$this->pageView = 'article/Talk';
 		$this->attributeView = 'attribute/Talk';
 		$this->view->mode = 'talk';

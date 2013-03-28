@@ -59,7 +59,9 @@ class Template_Controller extends Page {
                  $sectionData->template = $this->templateData;
                  $sectionData->title = $title;
                  $sectionData->order = $order;
-                 $sectionData->type = $type;
+                if ($sectionData->sections->count_all() == 0) {
+                    $sectionData->type = $type;
+                }
                  $sectionData->save();
              }
              $currentSections = $this->templateData->sections->find_all();
@@ -73,7 +75,7 @@ class Template_Controller extends Page {
                  }
                  
                  // Remove old
-                 if ($found === false) {
+                 if ($found === false && $cs->sections->count_all() == 0) {
                      $cs->delete();
                  }
              }

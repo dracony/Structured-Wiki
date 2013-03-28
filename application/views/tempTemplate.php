@@ -13,7 +13,7 @@
 <?php if($mode === "edit") { ?>
         <link rel="stylesheet" href="/css/edit.css" type="text/css" />
         <script type="text/javascript" src="/js/expanding.js"></script>
-        <script type="text/javascript" src="/js/edit.js"></script>
+        <script type="text/javascript" src="/js/teamplateEdit.js"></script>
 <?php } ?>
     </head>
     <body>

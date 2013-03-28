@@ -46,6 +46,11 @@ class Page extends Controller {
  
     //This will execute after an action is completed
     public function after() {
+        // If no attribute view set to full width page
+        if ($this->attributeView === '') {
+            $this->view->cssLayout = "layoutFull";
+        }
+        
         // Fixup the layout css
         $this->view->cssLayout .= '.css';
         
