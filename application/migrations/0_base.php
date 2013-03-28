@@ -125,13 +125,17 @@ return array(
 			'type' => 'varchar',
 			'size' => 50
 		),
+		'properties' => array(
+			'type' => 'varchar',
+			'size' => 2048
+		),
 		'order' => array(
 			'type' => 'int'
 		)
 	),
 	
 	// Site Tempate Attributes
-	'template_attribues' => array (
+	'template_attributes' => array (
 	    'id' => array (
 	        'type' => 'id'
 	    ),
@@ -141,10 +145,6 @@ return array(
 		'title' => array(
 			'type' => 'varchar',
 			'size' => 50
-		),
-		'properties' => array(
-			'type' => 'varchar',
-			'size' => 2048
 		),
 		'type' => array(
 			'type' => 'varchar',

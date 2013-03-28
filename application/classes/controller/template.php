@@ -21,6 +21,7 @@ class Template_Controller extends Page {
         		$this->view->pageTitle = 'Template: ' . $this->templateData->name;
         		$this->view->pageSummary = $this->templateData->description;
         		$this->view->templateSections = $this->templateData->sections->order_by('order', 'ASC')->find_all()->as_array(true);
+        		$this->view->templateAttributes = $this->templateData->attributes->order_by('order', 'ASC')->find_all()->as_array(true);
         		$this->pageView = 'template/View';
         } else {
         		$this->pageView = 'template/New';
@@ -76,37 +77,36 @@ class Template_Controller extends Page {
                      $cs->delete();
                  }
              }
-
                           
              // Set the attributes
              $attributes = json_decode($this->request->post('templateAttributes', '[]'));
-             // Add/Update sections
+             // Add/Update attributes
              foreach ($attributes as $a) {
                  $order = $a[0];
                  $orig = $a[1];
                  $title = $a[2];
                  $type = $a[3];
                  
-                 $sectionData = $this->templateData->sections->where('title', $orig)->find();
-                 $sectionData->template = $this->templateData;
-                 $sectionData->title = $title;
-                 $sectionData->order = $order;
-                 $sectionData->type = $type;
-                 $sectionData->save();
+                 $attributeData = $this->templateData->attributes->where('title', $orig)->find();
+                 $attributeData->template = $this->templateData;
+                 $attributeData->title = $title;
+                 $attributeData->order = $order;
+                 $attributeData->type = $type;
+                 $attributeData->save();
              }
-             $currentSections = $this->templateData->sections->find_all();
-             foreach ($currentSections as $cs) {
+             $currentAttributes = $this->templateData->attributes->find_all();
+             foreach ($currentAttributes as $ca) {
                  $found = false;
-                 foreach ($sections as $s) {
-                     $title = $s[2];
-                     if ($cs->title == $title) {
+                 foreach ($attributes as $a) {
+                     $title = $a[2];
+                     if ($ca->title == $title) {
                          $found = true;
                      }
                  }
                  
                  // Remove old
                  if ($found === false) {
-                     $cs->delete();
+                     $ca->delete();
                  }
              }
         		
@@ -124,6 +124,8 @@ class Template_Controller extends Page {
         		$this->view->pageTitle = 'Editing template ' . $this->templateData->name;
         		$this->view->templateName = $this->templateData->name;
         		$this->view->templateDescription = $this->templateData->description;
+        		
+        		// Load template sections
         		$tempSections = $this->templateData->sections->order_by('order', 'ASC')->find_all();
         		if (count($tempSections) == 0) {
             		$this->view->templateSections = array(
@@ -143,7 +145,22 @@ class Template_Controller extends Page {
         		    }
         		    $this->view->templateSections = $sectionList;
         		}
-        		$this->view->templateAttributes = array();
+        		
+        		// Load template attributes
+        		$tempAttributes = $this->templateData->attributes->order_by('order', 'ASC')->find_all();
+        		if (count($tempAttributes) == 0) {
+            		$this->view->templateAttributes = array();
+        		} else {
+        		    $attributeList= array();
+        		    foreach($tempAttributes as $tempAttribute) {
+        		        $inuse = 0;
+        		        $object = (object)array('title' => $tempAttribute->title,
+        		                                'type' => $tempAttribute->type,
+        		                                'inuse' => $inuse);
+        		        array_push($attributeList, $object);
+        		    }
+        		    $this->view->templateAttributes = $attributeList;
+        		}
 	    } else {
         		$this->view->pageTitle = 'Editing template ' . $this->id;
         		$this->view->templateName = $this->id;

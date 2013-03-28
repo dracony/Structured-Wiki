@@ -72,7 +72,7 @@ $(document).ready(function() {
    $(document).on('blur', '.sortable > li > .editTitle > input', function(e) {
         $(this).parent().hide();
         $(this).parent().parent().children('.title').show().html($(this).val());
-        UpdateSectionData();
+        UpdateListCounts();
     });
     
     // Delete

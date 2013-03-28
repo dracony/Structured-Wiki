@@ -14,7 +14,17 @@ foreach ($templateSections as $s) {
 </ol>
 <?php } ?>
 
+<?php if (count($templateAttributes) > 0) { ?>
 <h2>Attributes</h2>
+<ol>
+<?php
+foreach ($templateAttributes as $a) {
+    echo "<li>";
+    echo $a->title;
+    echo "</li>";
+}?>
+</ol>
+<?php } ?>
 
 <h2>Pages</h2>
 <ul>
