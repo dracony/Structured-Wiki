@@ -43,6 +43,7 @@ class Template_Controller extends Page {
              $this->templateData->lastEditIP = $_SERVER['REMOTE_ADDR'];
              $this->templateData->lastEditDate = $_SERVER['REMOTE_ADDR'];
              $this->templateData->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
+        		$this->templateData->save();
              
              // Set the sections
              $sections = json_decode($this->request->post('templateSections', '[]'));
@@ -75,8 +76,39 @@ class Template_Controller extends Page {
                      $cs->delete();
                  }
              }
-             
-        		$this->templateData->save();
+
+                          
+             // Set the attributes
+             $attributes = json_decode($this->request->post('templateAttributes', '[]'));
+             // Add/Update sections
+             foreach ($attributes as $a) {
+                 $order = $a[0];
+                 $orig = $a[1];
+                 $title = $a[2];
+                 $type = $a[3];
+                 
+                 $sectionData = $this->templateData->sections->where('title', $orig)->find();
+                 $sectionData->template = $this->templateData;
+                 $sectionData->title = $title;
+                 $sectionData->order = $order;
+                 $sectionData->type = $type;
+                 $sectionData->save();
+             }
+             $currentSections = $this->templateData->sections->find_all();
+             foreach ($currentSections as $cs) {
+                 $found = false;
+                 foreach ($sections as $s) {
+                     $title = $s[2];
+                     if ($cs->title == $title) {
+                         $found = true;
+                     }
+                 }
+                 
+                 // Remove old
+                 if ($found === false) {
+                     $cs->delete();
+                 }
+             }
         		
         		// Redirect to prevent browser reload issues
         		$this->response->redirect('/edit/!' . $this->templateData->name);
@@ -117,7 +149,7 @@ class Template_Controller extends Page {
         		$this->view->templateName = $this->id;
         		$this->view->templateDescription = "";
         		$this->view->templateSections = array(
-        		    (object)array('title' => 'Content', 'type' => 'mu')
+        		    (object)array('title' => 'Content', 'type' => 'mu', 'inuse'=>0)
         		);
         		$this->view->templateAttributes = array();
 	    }

@@ -130,6 +130,31 @@ return array(
 		)
 	),
 	
+	// Site Tempate Attributes
+	'template_attribues' => array (
+	    'id' => array (
+	        'type' => 'id'
+	    ),
+	    'template_id' => array (
+	        'type' => 'int'
+	    ),
+		'title' => array(
+			'type' => 'varchar',
+			'size' => 50
+		),
+		'properties' => array(
+			'type' => 'varchar',
+			'size' => 2048
+		),
+		'type' => array(
+			'type' => 'varchar',
+			'size' => 50
+		),
+		'order' => array(
+			'type' => 'int'
+		)
+	),
+	
 	// Site Articles
 	'articles' => array (
 	    'id' => array (
@@ -202,7 +227,7 @@ return array(
 	        'type' => 'int'
 	    ),
 	    'parent' => array (
-	        'type' => 'it'
+	        'type' => 'int'
 	    ),
 		'owner_id' => array(
 			'type' => 'int'

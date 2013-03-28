@@ -14,6 +14,10 @@ class Template_Model extends ORM {
             'model'=>'TemplateSection',
             'key'=>'template_id'
         ),
+        'attributes'=>array(
+            'model'=>'TemplateAttribute',
+            'key'=>'template_id'
+        ),
         'articles'=>array(
             'model'=>'article',
             'key'=>'template_id'
