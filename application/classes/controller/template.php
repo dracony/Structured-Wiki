@@ -39,10 +39,9 @@ class Template_Controller extends Page {
 	    // If this is a post save the form
 	    if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	        // Set the easy stuff
-        		$this->templateData->name  = $this->request->post('templateName', '');
+        		$this->templateData->name = $this->request->post('templateName', '');
              $this->templateData->description = $this->request->post('templateDescription', '');
              $this->templateData->lastEditIP = $_SERVER['REMOTE_ADDR'];
-             $this->templateData->lastEditDate = $_SERVER['REMOTE_ADDR'];
              $this->templateData->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
         		$this->templateData->save();
              
@@ -113,7 +112,7 @@ class Template_Controller extends Page {
              }
         		
         		// Redirect to prevent browser reload issues
-        		$this->response->redirect('/edit/!' . $this->templateData->name);
+        		$this->response->redirect('/!' . $this->templateData->name);
     		}
 
 

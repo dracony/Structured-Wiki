@@ -12,7 +12,7 @@ class Article_Controller extends Page {
     
 	public function action_view() {
         // Find the template in the database
-		$this->articleData = ORM::factory('template')->where('name', $this->id)->find();
+		$this->articleData = ORM::factory('article')->where('title', $this->id)->find();
 
 
         // Set the mode to view
@@ -22,6 +22,18 @@ class Article_Controller extends Page {
             $this->pageView = 'article/View';
             $this->attributeView = 'attribute/View';
             $this->view->pageTitle = $this->articleData->title;
+
+            $this->view->articleTitle = $this->articleData->title;
+            $this->view->articleSummary = $this->formatText($this->articleData->summary);
+            $sectionList = array();
+            $articleSections = $this->articleData->sections->find_all();
+            foreach ($articleSections as $s) {
+    		        $object = (object)array('title' => $s->template->title,
+    		                                'html' => $s->html);
+    		        array_push($sectionList, $object);
+            }
+            $this->view->articleSections = $sectionList;
+
 	    } else {
             $this->pageView = 'article/New';
             $this->attributeView = 'attribute/New';
@@ -31,29 +43,96 @@ class Article_Controller extends Page {
 
 	public function action_edit() {
         // Find the template in the database
-		$this->articleData = ORM::factory('template')->where('name', $this->id)->find();
+		$this->articleData = ORM::factory('article')->where('title', $this->id)->find();
+	    
+        $this->pageView = 'article/Edit';
+        $this->attributeView = 'attribute/Edit';
+        $this->view->mode = 'edit';
 
-		$this->pageView = 'atricle/Edit';
-		$this->attributeView = 'attribute/Edit';
-		$this->view->mode = 'edit';
-		$this->set_common_items();
-		$this->view->message = 'Have fun coding!';
+	    // If this is a post save the form
+	    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Save the article
+            $this->articleData->title = $this->request->post('articleTitle', '');
+            $this->articleData->summary = $this->request->post('articleSummary', '');
+            $this->articleData->template_id = $this->request->post('articleTemplate', '');
+            $this->articleData->lastEditIP = $_SERVER['REMOTE_ADDR'];
+            $this->articleData->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
+	        $this->articleData->save();
+	        
+            // grab the selected template's sections
+            $selectedTemplate = ORM::factory('template', $this->articleData->template_id);
+            $sectionList = $selectedTemplate->sections->order_by('order', 'ASC')->find_all()->as_array(true);
+            
+            // Loop through the sections and save them
+            foreach ($sectionList as $s) {
+                $sID = 'section-' . $s->id;
+                $sValue = $this->request->post($sID, '');
+                $articleSection = $this->articleData->sections->where('section_id', $s->id)->find();
+                $articleSection->article_id = $this->articleData->id;
+                $articleSection->section_id = $s->id;
+                $articleSection->raw = $sValue;
+                $articleSection->html = htmlentities($sValue, ENT_COMPAT | ENT_HTML5, "UTF-8");
+                $articleSection->lastEditIP = $_SERVER['REMOTE_ADDR'];
+                $articleSection->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
+                $articleSection->save();
+            }
+            
+            // Redirect to prevent browser reload issues
+            $this->response->redirect('/' . $this->articleData->title);
+	    }
+	    
+		// Setup the template sections
+	    if ($this->articleData->loaded()) {
+            $this->view->pageTitle = "Edit page " . $this->articleData->title;
+            $this->view->articleTitle = $this->articleData->title;
+            $this->view->articleSummary = $this->articleData->summary;
+            
+            // grab templates
+            $this->view->templateList = ORM::factory('template')->find_all()->as_array();
+            $this->view->selectedTemplateID = $this->articleData->template_id;
+            $selectedTemplate = ORM::factory('template', $this->articleData->template_id);
+
+            // grab the template sections
+            $sectionList = array();
+            $articleSections = $selectedTemplate->sections->order_by('order', 'ASC')->find_all()->as_array(true);
+            foreach ($articleSections as $s) {
+                $articleSection = $this->articleData->sections->where('section_id', $s->id)->find();
+    		        $object = (object)array('id' => $s->id,
+    		                                'type' => $s->type, 
+    		                                'title' => $s->title,
+    		                                'raw' => $articleSection->raw);
+    		        array_push($sectionList, $object);
+            }
+            $this->view->articleSections = $sectionList;
+            
+	    } else {
+            $this->view->pageTitle = "Edit page  " . $this->id;
+            $this->view->articleTitle = $this->id;
+            $this->view->articleSummary = "";
+            
+            // Grab templates
+            $this->view->templateList = ORM::factory('template')->find_all()->as_array();
+            $selectedTemplate = $this->view->templateList[0];
+            $this->view->selectedTemplateID = $selectedTemplate->id;
+            
+            // grab the template sections
+            $this->view->sectionList = $selectedTemplate->sections->order_by('order', 'ASC')->find_all()->as_array(true);
+	    }
 	}
 
 	public function action_talk() {
         // Find the template in the database
-		$this->articleData = ORM::factory('template')->where('name', $this->id)->find();
+		$this->articleData = ORM::factory('article')->where('title', $this->id)->find();
 
 		$this->pageView = 'article/Talk';
 		$this->attributeView = 'attribute/Talk';
 		$this->view->mode = 'talk';
-		$this->set_common_items();
 		$this->view->message = 'Have fun coding!';
 	}
 	
 	
-	private function set_common_items() {
-        $this->view->pageTitle = 'The Page Title Goes Here';
-        $this->view->pageSummary = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut bibendum, ligula in congue rhoncus, sapien ante posuere arcu, sed imperdiet mi dui id urna. In id consequat dolor. Aliquam erat volutpat. Suspendisse eget felis ut leo elementum tempor. Pellentesque rutrum interdum placerat. Pellentesque consectetur leo vel neque hendrerit at aliquam dolor laoreet. Suspendisse potenti. Vivamus volutpat tempor lacus a ornare. Donec viverra iaculis tortor, fermentum consectetur ipsum aliquam at. Proin iaculis nulla sed mauris interdum accumsan. Aliquam arcu lacus, gravida a fermentum sed, ullamcorper quis velit.';
+	private function formatText($text) {
+	    $text = str_replace("\n", "<br />", $text);
+	    return $text;
 	}
 }

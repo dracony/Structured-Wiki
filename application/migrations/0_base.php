@@ -146,6 +146,10 @@ return array(
 			'type' => 'varchar',
 			'size' => 50
 		),
+		'summary' => array(
+			'type' => 'varchar',
+			'size' => 2048
+		),
 		'type' => array(
 			'type' => 'varchar',
 			'size' => 50
@@ -166,6 +170,10 @@ return array(
 		'title' => array(
 			'type' => 'varchar',
 			'size' => 256
+		),
+		'summary' => array(
+			'type' => 'varchar',
+			'size' => 4056
 		),
 		'owner_id' => array(
 			'type' => 'int'

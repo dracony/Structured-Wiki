@@ -2,7 +2,7 @@
 
 class Article_Model extends ORM {
     // Table name
-    public $table = 'atricles';
+    public $table = 'articles';
     
     // Primary key
     public $id_field = 'id';    

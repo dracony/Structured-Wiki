@@ -15,7 +15,7 @@ class ArticleSection_Model extends ORM {
         ),
         'template'=>array(
             'model'=>'TemplateSection',
-            'key'=>'template_id'
+            'key'=>'section_id'
         )
     );
 }
