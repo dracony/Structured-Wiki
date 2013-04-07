@@ -1,6 +1,5 @@
 <?php
 class Api_Controller extends Controller {
-    public $view;
     public $command = '';
     public $knownCommands = Array(
         'help' => 'Show this help', 
@@ -18,20 +17,21 @@ class Api_Controller extends Controller {
 	    switch($this->command) {
             case 'login':
                 $this->api_login();
+				$this->update_top_bar();
                 break;
                 
             case 'logout':
                 $this->api_logout();
+				$this->update_top_bar();
                 break;
                 
 	        default:
-                $this->view = View::get('api/help');
-                $this->view->commands = $this->knownCommands;
+                $help = View::get('api/help');
+                $help->commands = $this->knownCommands;
+				$this->response->body = $help->render();
                 break;
 	    }
-	 
-        //And now to render the main view
-        $this->response->body = $this->view->render();
+      
     }
     
     
@@ -48,21 +48,18 @@ class Api_Controller extends Controller {
             $auth = true;
         }
         
-        $this->view = View::get('api/login');
-        $this->view->auth = $auth;
         if ($auth === true) {
             // Setup session
             Session::set('auth', true);
-            if ($user->nickname != '') {
-                Session::set('username', $user->nickname);
-            } else {
-                Session::set('username', $user->email);
-            }
+			Session::set('username', $user->nickname?:$user->email);
 	    } else {
 	        // Clear session
 	        Session::reset();
+			
+			//Why set auth to false in an empty session?
             Session::set('auth', false);
 	    }
+		
     }
     
     
@@ -71,7 +68,16 @@ class Api_Controller extends Controller {
 	        Session::reset();
             Session::set('auth', false);
 
-            // Prevent action and after() from firing
-            $this->view = View::get('api/logout');
+            
     }
+	
+	function update_top_bar() {
+		$bar = View::get('pageTopBar');
+		$bar->auth = Session::get('auth',false);
+		$this->response->body=json_encode(array(
+			'auth' => Session::get('auth', false),
+			'username' => Session::get('username', false),
+			'bar' => $bar->render()
+		));
+	}
 }
