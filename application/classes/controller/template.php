@@ -18,16 +18,18 @@ class Template_Controller extends Page {
     		$this->view->mode = 'view';
 
 	    if ($this->templateData->loaded()) {
+        		$this->pageView = 'template/View';
         		$this->view->pageTitle = 'Template: ' . $this->templateData->name;
         		$this->view->pageSummary = $this->templateData->description;
         		$this->view->templateSections = $this->templateData->sections->order_by('order', 'ASC')->find_all()->as_array(true);
         		$this->view->templateAttributes = $this->templateData->attributes->order_by('order', 'ASC')->find_all()->as_array(true);
-        		$this->pageView = 'template/View';
+        		$this->view->templateArticles = $this->templateData->articles->find_all()->as_array(true);
         } else {
         		$this->pageView = 'template/New';
         		$this->view->pageTitle = 'Create template ' . $this->id . '?';
         		$this->view->pageSummary = '';
         		$this->view->templateSections = [];
+        		$this->view->templatePages = [];
         }
 	}
 	

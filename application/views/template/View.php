@@ -28,9 +28,12 @@ foreach ($templateAttributes as $a) {
 
 <h2>Pages</h2>
 <ul>
-<li>
-Page Title / Link
-<dd>Page Summary</dd>
-</li>
+<?php
+foreach ($templateArticles as $a) {
+    echo "<li>";
+    echo $a->title;
+    echo "<dd>" . $a->summary . "</dd>";
+    echo "</li>";
+}?>
 </ul>
 

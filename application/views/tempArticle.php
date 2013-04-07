@@ -75,6 +75,7 @@
         </div>
         <div class="pageContent">
             <?php if (isset($pageView) && $pageView != '') { include($pageView); } ?>
+            <div style="clear:left"></div>
         </div>
         <div class="pageFooter">
             I'm the footer

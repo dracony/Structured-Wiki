@@ -2,9 +2,12 @@
 
 <h2>Page Title:</h2>
 <input type='text' id='articleTitle' name='articleTitle' value='<?php echo $articleTitle; ?>' />
+
 <h2>Page Summary (<span id='articleSummaryCount'></span>):</h2>
 <textarea id='articleSummary' name='articleSummary' class='expanding' maxlength='2048'><?php echo $articleSummary; ?></textarea>
-<h2>Template<br /><small>(Once a template is choosen and the paarticlege is created it becomes more difficult to
+
+<?php if (count($templateList) > 0) { ?>
+<h2>Template<br /><small>(Once a template is choosen and the articlege is created it becomes more difficult to
 chane the template. For a change to be made, the article needs to be blank.)</small></h1>
 <select id='articleTemplate' name='articleTemplate'>
 <?php
@@ -17,6 +20,7 @@ foreach ($templateList as $t) {
 }
 ?>
 </select>
+<?php } ?>
 
 <div id='articleSections'>
 <?php

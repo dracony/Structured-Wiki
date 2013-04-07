@@ -52,9 +52,9 @@ class Article_Controller extends Page {
 	    // If this is a post save the form
 	    if($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Save the article
-            $this->articleData->title = $this->request->post('articleTitle', '');
-            $this->articleData->summary = $this->request->post('articleSummary', '');
-            $this->articleData->template_id = $this->request->post('articleTemplate', '');
+            $this->articleData->title = $this->request->post('articleTitle', $this->articleData->title);
+            $this->articleData->summary = $this->request->post('articleSummary', $this->articleData->summary);
+            $this->articleData->template_id = $this->request->post('articleTemplate', $this->articleData->template_id);
             $this->articleData->lastEditIP = $_SERVER['REMOTE_ADDR'];
             $this->articleData->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
 	        $this->articleData->save();
@@ -86,14 +86,11 @@ class Article_Controller extends Page {
             $this->view->pageTitle = "Edit page " . $this->articleData->title;
             $this->view->articleTitle = $this->articleData->title;
             $this->view->articleSummary = $this->articleData->summary;
-            
-            // grab templates
-            $this->view->templateList = ORM::factory('template')->find_all()->as_array();
-            $this->view->selectedTemplateID = $this->articleData->template_id;
-            $selectedTemplate = ORM::factory('template', $this->articleData->template_id);
 
             // grab the template sections
+            $pageHasContent = false;
             $sectionList = array();
+            $selectedTemplate = ORM::factory('template', $this->articleData->template_id);
             $articleSections = $selectedTemplate->sections->order_by('order', 'ASC')->find_all()->as_array(true);
             foreach ($articleSections as $s) {
                 $articleSection = $this->articleData->sections->where('section_id', $s->id)->find();
@@ -102,9 +99,21 @@ class Article_Controller extends Page {
     		                                'title' => $s->title,
     		                                'raw' => $articleSection->raw);
     		        array_push($sectionList, $object);
+    		        
+    		        if ($articleSection->raw != "") {
+    		            $pageHasContent = true;
+    		        }
             }
             $this->view->articleSections = $sectionList;
             
+            // grab all templates
+            if (!$pageHasContent) {
+                $this->view->selectedTemplateID = $this->articleData->template_id;
+                $this->view->templateList = ORM::factory('template')->find_all()->as_array();
+            } else {
+                $this->view->selectedTemplateID = -1;
+                $this->view->templateList = [];
+            }
 	    } else {
             $this->view->pageTitle = "Edit page  " . $this->id;
             $this->view->articleTitle = $this->id;
