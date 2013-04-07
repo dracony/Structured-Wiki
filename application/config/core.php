@@ -36,7 +36,8 @@ return array(
 		),
 		array('app-api', '/~api(/<command>)', array(
 				'controller' => 'api',
-				'command' => 'help'
+				'command' => 'help',
+				'action' => 'api'
 			)
 		),
 		array('view-article', '(/<id>)', array(
