@@ -24,7 +24,7 @@ class Article_Controller extends Page {
             $this->view->pageTitle = $this->articleData->title;
 
             $this->view->articleTitle = $this->articleData->title;
-            $this->view->articleSummary = $this->formatText($this->articleData->summary);
+            $this->view->articleSummary = Util::TextToHtml($this->articleData->summary);
             $sectionList = array();
             $articleSections = $this->articleData->sections->find_all();
             foreach ($articleSections as $s) {
@@ -52,9 +52,9 @@ class Article_Controller extends Page {
 	    // If this is a post save the form
 	    if($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Save the article
-            $this->articleData->title = $this->request->post('articleTitle', $this->articleData->title);
-            $this->articleData->summary = $this->request->post('articleSummary', $this->articleData->summary);
-            $this->articleData->template_id = $this->request->post('articleTemplate', $this->articleData->template_id);
+            $this->articleData->title = $this->request->post('articleTitle', $this->id);
+            $this->articleData->summary = $this->request->post('articleSummary', '');
+            $this->articleData->template_id = $this->request->post('articleTemplate', '-1');
             $this->articleData->lastEditIP = $_SERVER['REMOTE_ADDR'];
             $this->articleData->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
 	        $this->articleData->save();
@@ -70,8 +70,16 @@ class Article_Controller extends Page {
                 $articleSection = $this->articleData->sections->where('section_id', $s->id)->find();
                 $articleSection->article_id = $this->articleData->id;
                 $articleSection->section_id = $s->id;
-                $articleSection->raw = $sValue;
-                $articleSection->html = htmlentities($sValue, ENT_COMPAT | ENT_HTML5, "UTF-8");
+                $articleSection->raw = trim($this->request->post($sID, ''));
+                switch($s->type) {
+                    case 'mu':
+                        $articleSection->html = util::MarkupToHtml($sValue);
+                        break;
+                    case 'txt':
+                    default:
+                        $articleSection->html = util::TextToHtml($sValue);
+                        break;
+                }
                 $articleSection->lastEditIP = $_SERVER['REMOTE_ADDR'];
                 $articleSection->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
                 $articleSection->save();
@@ -137,11 +145,5 @@ class Article_Controller extends Page {
 		$this->attributeView = 'attribute/Talk';
 		$this->view->mode = 'talk';
 		$this->view->message = 'Have fun coding!';
-	}
-	
-	
-	private function formatText($text) {
-	    $text = str_replace("\n", "<br />", $text);
-	    return $text;
 	}
 }

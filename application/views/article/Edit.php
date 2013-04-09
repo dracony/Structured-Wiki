@@ -1,4 +1,4 @@
-<form method='post'>
+<form method='post' accept-charset="utf-8">
 
 <h2>Page Title:</h2>
 <input type='text' id='articleTitle' name='articleTitle' value='<?php echo $articleTitle; ?>' />
@@ -22,6 +22,7 @@ foreach ($templateList as $t) {
 </select>
 <?php } ?>
 
+<?php if (isset($articleSections) > 0) { ?>
 <div id='articleSections'>
 <?php
 foreach ($articleSections as $s) {
@@ -38,6 +39,7 @@ foreach ($articleSections as $s) {
 }
 ?>
 </div>
+<?php } ?>
 
 <div id="buttonbar">
     <button>Save Article</button>
