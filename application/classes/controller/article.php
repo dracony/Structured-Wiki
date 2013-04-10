@@ -66,11 +66,11 @@ class Article_Controller extends Page {
             // Loop through the sections and save them
             foreach ($sectionList as $s) {
                 $sID = 'section-' . $s->id;
-                $sValue = $this->request->post($sID, '');
+                $sValue = $this->request->post($sID, '', false);
                 $articleSection = $this->articleData->sections->where('section_id', $s->id)->find();
                 $articleSection->article_id = $this->articleData->id;
                 $articleSection->section_id = $s->id;
-                $articleSection->raw = trim($this->request->post($sID, ''));
+                $articleSection->raw = trim($sValue);
                 switch($s->type) {
                     case 'mu':
                         $articleSection->html = util::MarkupToHtml($sValue);

@@ -2,7 +2,7 @@ textarea {
     width: 100%;
     resize: none;
     padding: 2px;
-    white-space: pre-line;
+//    white-space: pre-line;
 }
 
 .textareaClone {

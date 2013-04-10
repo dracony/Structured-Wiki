@@ -167,38 +167,6 @@ button {
     padding: 5px;
 }
 
-.pageContent P {
-    margin-top: 0px;
-}
-
-.pageContent h1 {
-    margin-top: 0px;
-    margin-bottom: 3px;
-    font-size: 19px;
-    text-align: center;
-}
-
-.pageContent h1 small {
-    font-size: 15px;
-    font-weight: normal;
-}
-
-.pageContent h2 {
-    margin-top: 25px;
-    margin-bottom: 3px;
-    font-size: 16px;
-    border-bottom: 1px dotted #CCC;
-}
-
-.pageContent h2:fist-child {
-    margin-top: 0px;
-}
-
-.pageContent h2 small {
-    font-size: 12px;
-    font-weight: normal;
-}
-
 .pageContent .quote {
     margin: 20px 20px 20px 35px;
     padding-left: 5px;
@@ -398,4 +366,41 @@ button {
 }
 
 
+/* General content */
 
+.pageContent P {
+    margin-top: 0px;
+}
+
+.pageContent h1 {
+    margin-top: 0px;
+    margin-bottom: 3px;
+    font-size: 19px;
+    text-align: center;
+}
+
+.pageContent h1 small {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.pageContent h2 {
+    margin-top: 25px;
+    margin-bottom: 3px;
+    font-size: 16px;
+    border-bottom: 1px dotted #CCC;
+}
+
+.pageContent h2:fist-child {
+    margin-top: 0px;
+}
+
+.pageContent h2 small {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.para {
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
