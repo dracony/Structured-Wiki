@@ -400,7 +400,44 @@ button {
     font-weight: normal;
 }
 
-.para {
+.pageContent .para {
     margin-top: 0px;
     margin-bottom: 15px;
+    font-size:14px;
+    line-height: 16px;
 }
+
+.pageContent  img.link {
+    height: 1em; 
+}
+
+.pageContent pre {
+    padding: 5px;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+    margin-bottom: 10px;
+    background-color: #eeeeee;
+    overflow: auto;
+    padding-bottom: 20px !ie7;
+    max-height: 600px;
+}
+
+.pageContent blockquote {
+    position: relative;
+    margin: 10px 10px 10px 40px;
+    padding: 10px 10px 10px 10px;
+    background-color: #eeeeee;
+    border-left: 3px dashed #CCC;
+}
+
+.pageContent blockquote .attribution {
+    position: absolute;
+    right: 0px;
+    font-size: 12px;
+    bottom: -7px;
+    background-color: #eeeeee;
+    padding: 0px 5px 0px 5px;
+    border: 1px dotted #CCC;
+    font-style: italic;
+}
+
+
