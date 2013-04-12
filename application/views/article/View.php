@@ -25,5 +25,6 @@ foreach ($articleSections as $s) {
 }
 ?>
 </div>
-
-
+<div class="templates">
+Template: <a href='!<?php echo $articleTemplate ?>'><?php echo $articleTemplate ?></a>
+</div>

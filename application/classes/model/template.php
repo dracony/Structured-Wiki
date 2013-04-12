@@ -19,7 +19,7 @@ class Template_Model extends ORM {
             'key'=>'template_id'
         ),
         'articles'=>array(
-            'model'=>'article',
+            'model'=>'Article',
             'key'=>'template_id'
         )
     );

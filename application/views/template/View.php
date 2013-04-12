@@ -26,12 +26,12 @@ foreach ($templateAttributes as $a) {
 </ol>
 <?php } ?>
 
-<h2>Pages</h2>
+<h2>Pages <small>(<?php echo count($templateArticles); ?>)</small></h2>
 <ul>
 <?php
 foreach ($templateArticles as $a) {
     echo "<li>";
-    echo $a->title;
+    echo "<a href='" . $a->title . "'>" . $a->title . "</a>";
     echo "<dd>" . $a->summary . "</dd>";
     echo "</li>";
 }?>

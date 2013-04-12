@@ -440,4 +440,11 @@ button {
     font-style: italic;
 }
 
+.pageContent .templates {
+    background-color: #eeeeee;
+    padding: 5px;
+    border: 1px solid #CCC;
+    border-top: 3px solid #CCC;
+}
+
 

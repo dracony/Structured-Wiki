@@ -33,6 +33,8 @@ class Article_Controller extends Page {
     		        array_push($sectionList, $object);
             }
             $this->view->articleSections = $sectionList;
+            
+            $this->view->articleTemplate = $this->articleData->template->find()->name;
 
 	    } else {
             $this->pageView = 'article/New';
@@ -51,10 +53,15 @@ class Article_Controller extends Page {
 
 	    // If this is a post save the form
 	    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+	        $tid = -1;
+	        if ($this->articleData->loaded()) {
+	            $tid = $this->articleData->template_id;
+	        }
+	        
             // Save the article
             $this->articleData->title = $this->request->post('articleTitle', $this->id);
             $this->articleData->summary = $this->request->post('articleSummary', '');
-            $this->articleData->template_id = $this->request->post('articleTemplate', '-1');
+            $this->articleData->template_id = $this->request->post('articleTemplate', $tid);
             $this->articleData->lastEditIP = $_SERVER['REMOTE_ADDR'];
             $this->articleData->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
 	        $this->articleData->save();
@@ -102,13 +109,17 @@ class Article_Controller extends Page {
             $articleSections = $selectedTemplate->sections->order_by('order', 'ASC')->find_all()->as_array(true);
             foreach ($articleSections as $s) {
                 $articleSection = $this->articleData->sections->where('section_id', $s->id)->find();
+                $raw = "";
+                if ($articleSection->loaded()) {
+                    $raw = $articleSection->raw;
+                }
     		        $object = (object)array('id' => $s->id,
     		                                'type' => $s->type, 
     		                                'title' => $s->title,
-    		                                'raw' => $articleSection->raw);
+    		                                'raw' => $raw);
     		        array_push($sectionList, $object);
     		        
-    		        if ($articleSection->raw != "") {
+    		        if ($raw != "") {
     		            $pageHasContent = true;
     		        }
             }

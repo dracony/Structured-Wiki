@@ -29,7 +29,7 @@ class Template_Controller extends Page {
         		$this->view->pageTitle = 'Create template ' . $this->id . '?';
         		$this->view->pageSummary = '';
         		$this->view->templateSections = [];
-        		$this->view->templatePages = [];
+        		$this->view->templateArticles = [];
         }
 	}
 	
