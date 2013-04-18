@@ -222,6 +222,32 @@ return array(
 		)
 	),	
 	
+	// Article Attributes
+	'articleAttributes' => array (
+	    'id' => array (
+	        'type' => 'id'
+	    ),
+	    'article_id' => array (
+	        'type' => 'int'
+	    ),
+	    'attribute_id' => array (
+	        'type' => 'int'
+	    ),
+		'value' => array(
+			'type' => 'text'
+		),
+		'lastEditUser' => array(
+			'type' => 'int'
+		),
+		'lastEditIP' => array(
+			'type' => 'varchar',
+			'size' => 512
+		),
+		'lastEditDate' => array(
+			'type' => 'date'
+		)
+	),	
+	
 	
 	// Discussions
 	'posts' => array (

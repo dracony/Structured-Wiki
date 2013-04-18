@@ -9,7 +9,7 @@ class Util {
     
     
     // Basic markup, based on markdown
-    public static function MarkupToHtml($text) {
+    public static function MarkupToHtml($text, $items = []) {
         $text = Util::cleanup($text);
         
         // Make it html safe
@@ -59,7 +59,7 @@ class Util {
         // Headers
         // This works, but is there a cleaner way to go about it
         $text = preg_replace_callback(
-            '/(^|\n)([=]+)(.*?)(\n|$)/',
+            '/(^|\n)([=]+)(.*?)(?=(\n|$))/',
             function ($match) {
                 $num = min(intval(strlen($match[2])) + 2, 6);
                 return "\n<h" . $num . ">" . trim($match[3]) . "</h" . $num .">\n";

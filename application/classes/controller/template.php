@@ -60,9 +60,7 @@ class Template_Controller extends Page {
                  $sectionData->template = $this->templateData;
                  $sectionData->title = $title;
                  $sectionData->order = $order;
-                if ($sectionData->sections->count_all() == 0) {
-                    $sectionData->type = $type;
-                }
+                 $sectionData->type = $type;
                  $sectionData->save();
              }
              $currentSections = $this->templateData->sections->find_all();

@@ -1,5 +1,13 @@
 <form method='post' accept-charset="utf-8">
 
+<h2>General Information</h2>
+<p>
+This will create a new article, please take a moment to think about the 
+title of the page. Once create changing the title is not something that 
+should happen often. The links to the article would need updated as the 
+exiting links would no longer be accurate.
+</p>
+
 <h2>Page Title:</h2>
 <input type='text' id='articleTitle' name='articleTitle' value='<?php echo $articleTitle; ?>' />
 
@@ -22,29 +30,8 @@ foreach ($templateList as $t) {
 </select>
 <?php } ?>
 
-<?php if (isset($articleSections) > 0) { ?>
-<div id='articleSections'>
-<?php
-foreach ($articleSections as $s) {
-    switch ($s->type) {
-        case 'sl':
-            echo "<h2>" . $s->title . "<button id='add-section-" . $s->id . "' class='addSimpleList'>+</button></h2>";
-            echo "<ul class='simpleList'>";
-            echo "</ul>";
-            break;
-        default:
-            echo "<h2>" . $s->title . "</h2>";
-            echo "<textarea class='markup expanding' id='section-" . $s->id . "' name='section-" . $s->id . "'>" . $s->raw . "</textarea>";
-            break;
-    }
-}
-?>
-</div>
-<?php } ?>
-
 <div id="buttonbar">
-    <button>Save Article</button>
+    <button>Create Article</button>
 </div>
-
 
 </form>

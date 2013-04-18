@@ -125,7 +125,7 @@ foreach ($templateAttributes as $a) {
 <?php
     echo "<div id='tmpAttribute' class='template'>";
     echo "<li class='ui-state-default' data-can-delete='yes'>";
-    echo "<input type='hidden' value='' />";
+    echo "<input type='hidden' value='-' />";
     echo "<span class='ui-icon ui-icon-arrowthick-2-n-s'></span>";
     echo "<span class='order'></span>";
     echo "<span class='title'>Untitled</span>";
@@ -147,7 +147,7 @@ foreach ($templateAttributes as $a) {
 
     echo "<div id='tmpSection' class='template'>";
     echo "<li class='ui-state-default' data-can-delete='yes'>";
-    echo "<input type='hidden' value='' />";
+    echo "<input type='hidden' value='-' />";
     echo "<span class='ui-icon ui-icon-arrowthick-2-n-s'></span>";
     echo "<span class='order'></span>";
     echo "<span class='title'>Untitled</span>";

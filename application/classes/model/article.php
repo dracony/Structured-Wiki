@@ -12,6 +12,10 @@ class Article_Model extends ORM {
         'sections'=>array(
             'model'=>'ArticleSection',
             'key'=>'article_id'
+        ),
+        'attributes'=>array(
+            'model'=>'ArticleAttribute',
+            'key'=>'attribute_id'
         )
     );
     
