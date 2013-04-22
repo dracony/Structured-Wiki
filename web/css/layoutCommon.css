@@ -78,10 +78,13 @@ button {
     font-size: 13px;
     text-align: center;
     border-bottom: 1px solid black;
+    cursor: default;
 }
 
 .pageAttributes .row {
     height: 13px;
+    margin-top: 1px;
+    margin-bottom: 2px;
 }
 
 .pageAttributes label {

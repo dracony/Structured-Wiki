@@ -101,10 +101,10 @@ foreach ($templateAttributes as $a) {
         } else {
             echo "<option value='img'>Image</option>";
         }
-        if($a->type === 'sep') {
-            echo "<option value='sep' selected>Separator</option>";
+        if($a->type === 'hdr') {
+            echo "<option value='hdr' selected>Header</option>";
         } else {
-            echo "<option value='sep'>Separator</option>";
+            echo "<option value='hdr'> Header </option>";
         }
         echo "<select>";
         echo "<button>-</button>";
@@ -138,7 +138,7 @@ foreach ($templateAttributes as $a) {
     echo "<option value='text'>Text</option>";
     echo "<option value='page'>Link to Page</option>";
     echo "<option value='img'>Image</option>";
-    echo "<option value='sep'>Separator</option>";
+    echo "<option value='hdr'>Header</option>";
     echo "<select>";
     echo "<input type='hidden' value='' />";
     echo "<button>-</button>";

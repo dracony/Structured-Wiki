@@ -13,6 +13,7 @@
         <?php } ?>
     </head>
     <body>
+        <form method='post' accept-charset="utf-8">
         <div id="overlay">
         </div>
 
@@ -81,5 +82,6 @@
             I'm the footer
         </div>
         </div>
+        </form>
     </body>
 </html>

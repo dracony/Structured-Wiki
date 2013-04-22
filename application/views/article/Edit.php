@@ -1,5 +1,3 @@
-<form method='post' accept-charset="utf-8">
-
 <h2>Page Title:</h2>
 <input type='text' id='articleTitle' name='articleTitle' value='<?php echo $articleTitle; ?>' />
 
@@ -46,5 +44,3 @@ foreach ($articleSections as $s) {
     <button>Save Article</button>
 </div>
 
-
-</form>

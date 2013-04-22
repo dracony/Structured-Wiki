@@ -27,6 +27,7 @@ class Article_Controller extends Page {
             $this->view->articleTemplate = $this->template->name;
             $this->view->lastUpdated = $this->lastUpdated;
             
+            
             // Load in sections
             $sectionList = array();
             $articleSections = $this->articleORM->sections->find_all();
@@ -36,7 +37,44 @@ class Article_Controller extends Page {
     		        array_push($sectionList, $object);
             }
             $this->view->articleSections = $sectionList;
+    
+    
+            // grab the article attributes
+            $arrtibuteList = array();
+            $arrtibuteListTemp = array();
+            $articleAttributes = $this->template->attributes->order_by('order', 'ASC')->find_all()->as_array(true);
+            foreach ($articleAttributes as $s) {
+                $articleAttribute = $this->articleORM->attributes->where('attribute_id', $s->id)->find();
+                $value = "";
+                if ($articleAttribute->loaded()) {
+                    $value = $articleAttribute->value;
+                }
+    		        $object = (object)array('id' => $s->id,
+    		                                'type' => $s->type, 
+    		                                'title' => $s->title,
+    		                                'value' => $value);
+    		        
+                 if ($s->type == "hdr" || $value != "") {
+    		            $pageHasContent = true;
+        		        array_push($arrtibuteListTemp, $object);
+    		        }
+            }
             
+            // Remove unneeded headers
+            for ($i=0; $i < count($arrtibuteListTemp) - 1; $i++) {
+                $current = $arrtibuteListTemp[$i];
+                $next = $arrtibuteListTemp[$i+1];
+                
+                if ($current->type == "hdr" && $next->type != "hdr") {
+        		        array_push($arrtibuteList, $current);
+                } else if ($current->value != "") {
+        		        array_push($arrtibuteList, $current);
+                }
+            }
+            if ($arrtibuteListTemp[count($arrtibuteListTemp) - 1]->value != "") {
+    		        array_push($arrtibuteList, $arrtibuteListTemp[count($arrtibuteListTemp) - 1]);
+            }
+            $this->view->articleAttributes = $arrtibuteList;
 
 	    } else {
             $this->pageView = 'article/New';
@@ -61,6 +99,8 @@ class Article_Controller extends Page {
             $this->view->pageTitle = "Edit page " . $this->title;
             $this->view->articleTitle = $this->title;
             $this->view->articleSummary = $this->summary;
+            $this->view->articleTemplate = $this->template->name;
+            $this->view->lastUpdated = $this->lastUpdated;
     	    
         	    // If this is a post save the form just save it
         	    // and move along
@@ -76,18 +116,29 @@ class Article_Controller extends Page {
     
             $pageHasContent = false;
     
-            // grab the template attributes
+            // grab the article attributes
             $arrtibuteList = array();
             $articleAttributes = $this->template->attributes->order_by('order', 'ASC')->find_all()->as_array(true);
             foreach ($articleAttributes as $s) {
                 $articleAttribute = $this->articleORM->attributes->where('attribute_id', $s->id)->find();
-                $raw = "";
+                $value = "";
                 if ($articleAttribute->loaded()) {
+                    $value = $articleAttribute->value;
                 }
+    		        $object = (object)array('id' => $s->id,
+    		                                'type' => $s->type, 
+    		                                'title' => $s->title,
+    		                                'value' => $value);
+    		        array_push($arrtibuteList, $object);
+    		        
+    		        if ($value != "") {
+    		            $pageHasContent = true;
+    		        }
             }
+            $this->view->articleAttributes = $arrtibuteList;
     	    
     	    
-            // grab the template sections
+            // grab the article sections
             $sectionList = array();
             $articleSections = $this->template->sections->order_by('order', 'ASC')->find_all()->as_array(true);
             foreach ($articleSections as $s) {
@@ -177,9 +228,10 @@ class Article_Controller extends Page {
         $this->articleORM->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
 	    $this->articleORM->save();
 	    
-        // grab the selected template's sections
+        // grab the selected template's sections and attributes
         $selectedTemplate = ORM::factory('template', $this->articleORM->template_id);
         $sectionList = $selectedTemplate->sections->order_by('order', 'ASC')->find_all()->as_array(true);
+        $attributeList = $selectedTemplate->attributes->order_by('order', 'ASC')->find_all()->as_array(true);
         
         // Loop through the sections and save them
         foreach ($sectionList as $s) {
@@ -201,6 +253,25 @@ class Article_Controller extends Page {
             $articleSection->lastEditIP = $_SERVER['REMOTE_ADDR'];
             $articleSection->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
             $articleSection->save();
+        }
+        
+        // Loop through the attributes and save them
+        foreach ($attributeList as $s) {
+            if ($s->type != "hdr") {
+                $sID = 'attribute-' . $s->id;
+                $sValue = $this->request->post($sID, '', false);
+                $articleAttribute = $this->articleORM->attributes->where('attribute_id', $s->id)->find();
+                $articleAttribute->article_id = $this->articleORM->id;
+                $articleAttribute->attribute_id = $s->id;
+                switch($s->type) {
+                    default:
+                        $articleAttribute->value = $sValue;
+                        break;
+                }
+                $articleAttribute->lastEditIP = $_SERVER['REMOTE_ADDR'];
+                $articleAttribute->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
+                $articleAttribute->save();
+            }
         }
 	}
 	

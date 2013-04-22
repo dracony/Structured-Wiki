@@ -15,7 +15,7 @@ class Article_Model extends ORM {
         ),
         'attributes'=>array(
             'model'=>'ArticleAttribute',
-            'key'=>'attribute_id'
+            'key'=>'article_id'
         )
     );
     

@@ -117,3 +117,15 @@ input {
     display: none;
 }
 
+
+.pageAttributes input {
+    display: block;
+    width: 55%;
+    float:left;
+    height: 13px;
+    padding: 0px;
+    border: 1px solid #cccccc;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 13px;
+}
