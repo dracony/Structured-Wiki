@@ -53,13 +53,8 @@ $(document).ready(function() {
         
     
     // Add to list buttons
-    $('#btnAddAttribute').on('click', function(e) {
-        $('#tmpAttribute li').clone().appendTo('#lstAttributes');
-        UpdateListCounts();
-        e.preventDefault();
-    });
-    $('#btnAddSection').on('click', function(e) {
-        $('#tmpSection li').clone().appendTo('#lstSections');
+    $('.addSimpleList').on('click', function(e) {
+        $('#tmpSimpleList li').clone().appendTo('#' + $(this).attr('id').replace('add-', 'list-'));
         UpdateListCounts();
         e.preventDefault();
     });
@@ -85,6 +80,24 @@ $(document).ready(function() {
         }
         e.preventDefault();
     });
+    
+    ////
+    // Attributes
+    ////
+    
+    
+    // Date
+    $('.attribute-date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'yy-mm-dd'
+    });
+    
+    // Integers
+    $('.attribute-int').spinner({
+        numberFormat: 'n'
+    });
+
 });
 
 // Update the order values on the list and
@@ -95,40 +108,22 @@ function UpdateListCounts() {
             $(this).children(".order").text(index + 1);
         });
     });
-    UpdateSectionData();
-    UpdateAttributeData();
+    UpdateSimpleListData();
 }
 
 // Store the sections list in json
-function UpdateSectionData() {
-    var data = Array();
-    $("#lstSections").each(function(index) {
+function UpdateSimpleListData() {
+    $(".simpleList").each(function(index) {
+        var data = Array();
         $(this).children("li").each(function(index) {
             $(this).children(".order").text(index + 1);
             data[index] = Array(index, 
                                 $(this).children("input").val(), 
-                                $(this).children(".title").text(), 
-                                $(this).children(".type").val());
+                                $(this).children(".title").text());
         });
+        var dataText = JSON.stringify(data, null, 2);
+        $('#' + $(this).attr('id').replace('list-', '')).val(dataText);
     });
-    var dataText = JSON.stringify(data, null, 2);
-    $("#templateSections").val(dataText);
-}
-
-// Store the attributes list in json
-function UpdateAttributeData() {
-    var data = Array();
-    $("#lstAttributes").each(function(index) {
-        $(this).children("li").each(function(index) {
-            $(this).children(".order").text(index + 1);
-            data[index] = Array(index, 
-                                $(this).children("input").val(), 
-                                $(this).children(".title").text(), 
-                                $(this).children(".type").val());
-        });
-    });
-    var dataText = JSON.stringify(data, null, 2);
-    $("#templateAttributes").val(dataText);
 }
 
 

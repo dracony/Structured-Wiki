@@ -27,7 +27,8 @@ foreach ($articleSections as $s) {
     switch ($s->type) {
         case 'sl':
             echo "<h2>" . $s->title . "<button id='add-section-" . $s->id . "' class='addSimpleList'>+</button></h2>";
-            echo "<ul class='simpleList'>";
+            echo "<input type='hidden' id='section-" . $s->id . "' />";
+            echo "<ul id='list-section-" . $s->id . "' class='sortable simpleList'>";
             echo "</ul>";
             break;
         default:
@@ -44,3 +45,16 @@ foreach ($articleSections as $s) {
     <button>Save Article</button>
 </div>
 
+
+
+<div id='tmpSimpleList' class='template'>
+<li class='ui-state-default' data-can-delete='yes'>
+<input type='hidden' value='-' />
+<span class='ui-icon ui-icon-arrowthick-2-n-s'></span>
+<span class='order'></span>
+<span class='title'>Untitled</span>
+<span class='editTitle'><input value='Untitled'/></span>
+<input type='hidden' value='' />
+<button>-</button>
+</li>
+</div>

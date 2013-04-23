@@ -4,7 +4,10 @@
         <title><?php echo $browserTitle; ?></title>
         <link rel="stylesheet" href="/css/layoutCommon.css" type="text/css" />
         <link rel="stylesheet" href="/css/<?php echo $cssLayout; ?>" type="text/css" />
+        <link rel="stylesheet" href="/css/ui-lightness/jquery-ui-1.10.2.custom.css" />
+        <script type="text/javascript" src="/js/json2.js"></script>
         <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="/js/jquery-ui-1.10.2.min.js"></script>
         <script type="text/javascript" src="/js/standard.js"></script>
         <?php if($mode === "edit") { ?>
         <link rel="stylesheet" href="/css/edit.css" type="text/css" />

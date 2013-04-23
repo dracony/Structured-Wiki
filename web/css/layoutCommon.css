@@ -105,6 +105,8 @@ button {
     font-weight: normal;
     font-size: 12px;
     line-height: 13px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .pageMenu {
@@ -164,10 +166,12 @@ button {
 }
 
 .pageContent {
+    position: relative;
     border: 1px solid #a7d7f9;
     margin-bottom: 20px;
-    background-color: white;
     padding: 5px;
+    padding-bottom: 30px;
+    background-color: white;
 }
 
 .pageContent .quote {
@@ -178,11 +182,12 @@ button {
 
 /* button bar */
 #buttonbar {
-    width: 100%;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
     border-top: 1px dotted #a7d7f9;
     margin-top: 20px;
-    margin-left: -5px;
-    margin-bottom: -6px;
     padding: 5px;
     text-align: center;
 }

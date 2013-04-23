@@ -86,10 +86,10 @@ foreach ($templateAttributes as $a) {
         } else {
             echo "<option value='cur'>Currency</option>";
         }
-        if($a->type === 'txt') {
-            echo "<option value='txt' selected>Text</option>";
+        if($a->type === 'text') {
+            echo "<option value='text' selected>Text</option>";
         } else {
-            echo "<option value='txt'>Text</option>";
+            echo "<option value='text'>Text</option>";
         }
         if($a->type === 'link') {
             echo "<option value='link' selected>Link to Page</option>";
@@ -136,7 +136,7 @@ foreach ($templateAttributes as $a) {
     echo "<option value='float'>Decimal</option>";
     echo "<option value='cur'>Currency</option>";
     echo "<option value='text'>Text</option>";
-    echo "<option value='page'>Link to Page</option>";
+    echo "<option value='link'>Link to Page</option>";
     echo "<option value='img'>Image</option>";
     echo "<option value='hdr'>Header</option>";
     echo "<select>";

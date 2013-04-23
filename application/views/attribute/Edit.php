@@ -10,13 +10,37 @@ foreach ($articleAttributes as $a) {
     } else {
         echo "<div class=\"row\">";
         switch($a->type) {
+            case 'int':
+                echo "<label>" . $a->title . "</label>";
+                echo "<input class='attribute-int' name='attribute-" . $a->id . "' id='attribute-" . $a->id . "' value='" . $a->value . "' />";
+                break;
+            case 'float':
+                echo "<label>" . $a->title . "</label>";
+                echo "<input class='attribute-float' name='attribute-" . $a->id . "' id='attribute-" . $a->id . "' value='" . $a->value . "' />";
+                break;
+            case 'text':
+                echo "<label>" . $a->title . "</label>";
+                echo "<input class='attribute-text' name='attribute-" . $a->id . "' id='attribute-" . $a->id . "' value='" . $a->value . "' />";
+                break;
             case 'date':
                 echo "<label>" . $a->title . "</label>";
-                echo "<input name='attribute-" . $a->id . "' id='attribude-" . $a->id . "' value='" . $a->value . "' />";
+                echo "<input class='attribute-date' name='attribute-" . $a->id . "' id='attribute-" . $a->id . "' value='" . $a->value . "' />";
+                echo "<span class='ui-icon ui-icon-calendar'></span>";
+                break;
+            case 'cur':
+                echo "<label>" . $a->title . "</label>";
+                echo "<input class='attribute-cur' name='attribute-" . $a->id . "' id='attribute-" . $a->id . "' value='" . $a->value . "' />";
+                break;
+            case 'link':
+                echo "<label>" . $a->title . "</label>";
+                echo "<input class='attribute-link' name='attribute-" . $a->id . "' id='attribute-" . $a->id . "' value='" . $a->value . "' />";
+                break;
+            case 'img':
+                echo "<label>" . $a->title . "</label>";
+                echo "<input class='attribute-img' name='attribute-" . $a->id . "' id='attribute-" . $a->id . "' value='" . $a->value . "' />";
                 break;
             default:
                 echo "<label>" . $a->title . "</label>";
-                echo "<data>" . $a->value . "</data>";
                 break;
         }
         echo "</div>";

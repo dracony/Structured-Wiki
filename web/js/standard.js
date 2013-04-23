@@ -1,5 +1,13 @@
  
 $(document).ready(function() {
+    // Add attribute titles if needed
+    $('.pageAttributes > .row > data').each(function() {
+        var width = $(this).width();
+        if (width < $(this)[0].scrollWidth) {
+            $(this).attr('title', $(this).text());
+        }
+    });
+
     // Show the the login dialog
     $(document).on('click', '.btnLoginDialog', function() {
         overlay(true);
