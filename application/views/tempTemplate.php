@@ -70,7 +70,7 @@
             <div style="clear:left"></div>
         </div>
         <div class="pageFooter">
-            I'm the footer
+            <?php if (isset($pageFooter) && $pageFooter != '') { include($pageFooter); } ?>
         </div>
         </div>
     </body>

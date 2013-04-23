@@ -141,10 +141,12 @@ class Installer_Controller extends Wizard {
         $appEmail = $this->request->post('appEmail', '');
         $appPass = $this->request->post('appPassword', '');
         $appNickname = $this->request->post('appNickname', '');
+        $appLicense = "by" . $this->request->post('appCommercial', '') . $this->request->post('appModification', '');
 
 		Session::set('temp.appName', $appName);
 		Session::set('temp.appEmail', $appEmail);
 		Session::set('temp.appNickname', $appNickname);
+		Session::set('temp. appLicense', $appLicense);
         
 	    if ($appName == '' || $appEmail == '' || $appPass == '')
 	    {
@@ -155,6 +157,7 @@ class Installer_Controller extends Wizard {
 	    
 	    // Write config to file
         Config::set('application.name', $appName);
+        Config::set('application.license', $appLicense);
         Config::write('application');
 
         // Install the database

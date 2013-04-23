@@ -11,6 +11,8 @@ class Page extends Controller {
     public $pageTitle;
     
     public function before() {
+        $this->rustart = getrusage();
+        
         // Grab the ID
         // TODO: Make unicode safe
         $this->id = strtolower($this->request->param('id', 'Welcome'));
@@ -29,6 +31,7 @@ class Page extends Controller {
         
         // Grab the application configuration
         $this->appTitle = Config::get('application.name', 'Wiki Title');
+        $this->view->appLicense = Config::get('application.license', '');
         
         // Set the page default rites
         $this->view->canEdit = true;
@@ -56,13 +59,24 @@ class Page extends Controller {
         
         // Update the title
         $this->view->browserTitle = $this->appTitle . ': ' . $this->view->pageTitle;
+        $this->view->appTitle = $this->appTitle;
         
         //We will find the file path to the view that will 
         //be specified as $subview by the actual controller
         $this->view->pageView = Misc::find_file('views', $this->pageView);
+        $this->view->pageFooter = Misc::find_file('views', 'pageFooter');
         $this->view->attributeView = Misc::find_file('views', $this->attributeView);
  
+
+        $this->ruend = getrusage();
+        $this->view->timeSpent = $this->rutime($this->ruend, $this->rustart, "utime");
+        
         //And now to render the main view
         $this->response->body = $this->view->render();
     }
+    
+    private function rutime($ru, $rus, $index) {
+        return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
+             -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
+    }    
 }

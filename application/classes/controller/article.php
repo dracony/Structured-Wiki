@@ -246,7 +246,7 @@ class Article_Controller extends Page {
                     $articleSection->html = util::MarkupToHtml($sValue);
                     break;
                 case 'sl':
-                    if ($articleSection->raw == "[]") {
+                    if ($articleSection->raw == "[]" || $articleSection->raw == "") {
                         $articleSection->raw = "";
                         $articleSection->html = "";
                     } else {
@@ -267,6 +267,12 @@ class Article_Controller extends Page {
                     $articleSection->html = util::TextToHtml($sValue);
                     break;
             }
+            
+            // Do a little cleanup
+            if ($articleSection->raw == "") {
+                $articleSection->html = "";
+            }
+            
             $articleSection->lastEditIP = $_SERVER['REMOTE_ADDR'];
             $articleSection->lastEditDate = gmdate("Y-m-d\TH:i:s\Z");
             $articleSection->save();
