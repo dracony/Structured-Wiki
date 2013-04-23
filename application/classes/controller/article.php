@@ -245,6 +245,23 @@ class Article_Controller extends Page {
                 case 'mu':
                     $articleSection->html = util::MarkupToHtml($sValue);
                     break;
+                case 'sl':
+                    if ($articleSection->raw == "[]") {
+                        $articleSection->raw = "";
+                        $articleSection->html = "";
+                    } else {
+                        $items = json_decode($articleSection->raw);
+                        $html = "<ol>";
+                        // Add/Update attributes
+                        foreach ($items as $i) {
+                            $order = $i[0];
+                            $title = $i[1];
+                            $html .= "<li>" . $title . "</li>";
+                        }
+                        $html .= "</ol>";
+                        $articleSection->html = $html;
+                    }
+                    break;
                 case 'txt':
                 default:
                     $articleSection->html = util::TextToHtml($sValue);

@@ -27,8 +27,23 @@ foreach ($articleSections as $s) {
     switch ($s->type) {
         case 'sl':
             echo "<h2>" . $s->title . "<button id='add-section-" . $s->id . "' class='addSimpleList'>+</button></h2>";
-            echo "<input type='hidden' id='section-" . $s->id . "' />";
+            echo "<input type='hidden' id='section-" . $s->id . "' name='section-" . $s->id . "' />";
             echo "<ul id='list-section-" . $s->id . "' class='sortable simpleList'>";
+            if ($s->raw != "") {
+            $items = json_decode($s->raw);
+            foreach ($items as $i) {
+                ?>
+<li class='ui-state-default' data-can-delete='yes'>
+<span class='ui-icon ui-icon-arrowthick-2-n-s'></span>
+<span class='order'></span>
+<span class='title'><?php echo $i[1]; ?></span>
+<span class='editTitle'><input value='<?php echo $i[1]; ?>'/></span>
+<input type='hidden' value='' />
+<button>-</button>
+</li>
+                <?php
+            }
+            }
             echo "</ul>";
             break;
         default:
@@ -49,7 +64,6 @@ foreach ($articleSections as $s) {
 
 <div id='tmpSimpleList' class='template'>
 <li class='ui-state-default' data-can-delete='yes'>
-<input type='hidden' value='-' />
 <span class='ui-icon ui-icon-arrowthick-2-n-s'></span>
 <span class='order'></span>
 <span class='title'>Untitled</span>

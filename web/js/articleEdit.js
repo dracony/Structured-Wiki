@@ -117,9 +117,7 @@ function UpdateSimpleListData() {
         var data = Array();
         $(this).children("li").each(function(index) {
             $(this).children(".order").text(index + 1);
-            data[index] = Array(index, 
-                                $(this).children("input").val(), 
-                                $(this).children(".title").text());
+            data[index] = Array(index, $(this).children(".title").html());
         });
         var dataText = JSON.stringify(data, null, 2);
         $('#' + $(this).attr('id').replace('list-', '')).val(dataText);
